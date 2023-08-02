@@ -1,9 +1,12 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { ApolloProvider } from "@apollo/client";
+import { initializeApollo } from "lib/apolloClient";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
+  const client = initializeApollo();
 
   return (
     <>
@@ -16,16 +19,18 @@ export default function App(props: AppProps) {
         />
       </Head>
 
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          /** Put your mantine theme override here */
-          colorScheme: "dark",
-        }}
-      >
-        <Component {...pageProps} />
-      </MantineProvider>
+      <ApolloProvider client={client}>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            /** Put your mantine theme override here */
+            colorScheme: "dark",
+          }}
+        >
+          <Component {...pageProps} />
+        </MantineProvider>
+      </ApolloProvider>
     </>
   );
 }
