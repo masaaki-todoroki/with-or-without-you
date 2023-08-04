@@ -2,3 +2,4 @@
 **/out/*
 **/.next/*
 /.eslintrc.json
+types/generated/*
