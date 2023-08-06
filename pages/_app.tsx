@@ -1,7 +1,9 @@
+import React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { MantineProvider } from "@mantine/core";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { ApolloProvider } from "@apollo/client";
+import { MantineProvider } from "@mantine/core";
 import { initializeApollo } from "lib/apolloClient";
 
 export default function App(props: AppProps) {
@@ -19,18 +21,20 @@ export default function App(props: AppProps) {
         />
       </Head>
 
-      <ApolloProvider client={client}>
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{
-            /** Put your mantine theme override here */
-            colorScheme: "dark",
-          }}
-        >
-          <Component {...pageProps} />
-        </MantineProvider>
-      </ApolloProvider>
+      <UserProvider>
+        <ApolloProvider client={client}>
+          <MantineProvider
+            withGlobalStyles
+            withNormalizeCSS
+            theme={{
+              /** Put your mantine theme override here */
+              colorScheme: "dark",
+            }}
+          >
+            <Component {...pageProps} />
+          </MantineProvider>
+        </ApolloProvider>
+      </UserProvider>
     </>
   );
 }
