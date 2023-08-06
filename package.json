@@ -13,7 +13,7 @@
     "fix:eslint": "npx eslint --fix .",
     "fix:prettier": "prettier --write .",
     "prepare": "husky install",
-    "gen-types": "node -r dotenv/config node_modules/.bin/graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config lib/codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.7.17",
