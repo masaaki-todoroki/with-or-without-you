@@ -1,14 +1,21 @@
 import React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
-import { ApolloProvider } from "@apollo/client";
 import { MantineProvider } from "@mantine/core";
-import { initializeApollo } from "lib/apolloClient";
+import { Auth0Provider } from "@auth0/auth0-react";
+import AuthorizedApolloProvider from "lib/apolloClient";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
-  const client = initializeApollo();
+  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/success`;
+  const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE;
+
+  console.log("NEXT_PUBLIC_AUTH0_DOMAIN", process.env.NEXT_PUBLIC_AUTH0_DOMAIN);
+  console.log(
+    "NEXT_PUBLIC_AUTH0_CLIENT_ID",
+    process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
+  );
+  console.log("redirectUri", redirectUri);
 
   return (
     <>
@@ -21,8 +28,15 @@ export default function App(props: AppProps) {
         />
       </Head>
 
-      <UserProvider>
-        <ApolloProvider client={client}>
+      <Auth0Provider
+        domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN || ""}
+        clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || ""}
+        authorizationParams={{
+          redirect_uri: `${redirectUri}`,
+          audience: `${audience}` || "",
+        }}
+      >
+        <AuthorizedApolloProvider>
           <MantineProvider
             withGlobalStyles
             withNormalizeCSS
@@ -33,8 +47,8 @@ export default function App(props: AppProps) {
           >
             <Component {...pageProps} />
           </MantineProvider>
-        </ApolloProvider>
-      </UserProvider>
+        </AuthorizedApolloProvider>
+      </Auth0Provider>
     </>
   );
 }
