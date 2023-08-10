@@ -9,9 +9,9 @@ if (!HASURA_GRAPHQL_ENDPOINT) {
   );
 }
 
-const HASURA_JWT_TOKEN = process.env.HASURA_JWT_TOKEN_FOR_CODEGEN;
-if (!HASURA_JWT_TOKEN) {
-  throw new Error("HASURA_JWT_TOKEN environment variable is not defined.");
+const HASURA_ADMIN_SECRET = process.env.HASURA_ADMIN_SECRET_FOR_CODEGEN;
+if (!HASURA_ADMIN_SECRET) {
+  throw new Error("HASURA_ADMIN_SECRET environment variable is not defined.");
 }
 
 const config: CodegenConfig = {
@@ -19,7 +19,7 @@ const config: CodegenConfig = {
   schema: {
     [HASURA_GRAPHQL_ENDPOINT]: {
       headers: {
-        Authorization: `Bearer ${HASURA_JWT_TOKEN}`,
+        "x-hasura-admin-secret": HASURA_ADMIN_SECRET,
       },
     },
   },

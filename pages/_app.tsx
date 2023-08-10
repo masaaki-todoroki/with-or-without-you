@@ -10,13 +10,6 @@ export default function App(props: AppProps) {
   const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/success`;
   const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE;
 
-  console.log("NEXT_PUBLIC_AUTH0_DOMAIN", process.env.NEXT_PUBLIC_AUTH0_DOMAIN);
-  console.log(
-    "NEXT_PUBLIC_AUTH0_CLIENT_ID",
-    process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
-  );
-  console.log("redirectUri", redirectUri);
-
   return (
     <>
       <Head>
