@@ -1,12 +1,14 @@
+import React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
-import { ApolloProvider } from "@apollo/client";
-import { initializeApollo } from "lib/apolloClient";
+import { Auth0Provider } from "@auth0/auth0-react";
+import AuthorizedApolloProvider from "lib/apolloClient";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
-  const client = initializeApollo();
+  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/success`;
+  const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE;
 
   return (
     <>
@@ -19,18 +21,27 @@ export default function App(props: AppProps) {
         />
       </Head>
 
-      <ApolloProvider client={client}>
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{
-            /** Put your mantine theme override here */
-            colorScheme: "dark",
-          }}
-        >
-          <Component {...pageProps} />
-        </MantineProvider>
-      </ApolloProvider>
+      <Auth0Provider
+        domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN || ""}
+        clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || ""}
+        authorizationParams={{
+          redirect_uri: `${redirectUri}`,
+          audience: `${audience}` || "",
+        }}
+      >
+        <AuthorizedApolloProvider>
+          <MantineProvider
+            withGlobalStyles
+            withNormalizeCSS
+            theme={{
+              /** Put your mantine theme override here */
+              colorScheme: "dark",
+            }}
+          >
+            <Component {...pageProps} />
+          </MantineProvider>
+        </AuthorizedApolloProvider>
+      </Auth0Provider>
     </>
   );
 }

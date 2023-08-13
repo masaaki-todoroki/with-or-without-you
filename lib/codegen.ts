@@ -1,10 +1,17 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
+import dotenv from "dotenv";
+dotenv.config();
 
-const HASURA_GRAPHQL_ENDPOINT = process.env.HASURA_ENDPOINT;
+const HASURA_GRAPHQL_ENDPOINT = process.env.HASURA_ENDPOINT_FOR_CODEGEN;
 if (!HASURA_GRAPHQL_ENDPOINT) {
   throw new Error(
-    "The HASURA_GRAPHQL_ENDPOINT environment variable is not defined.",
+    "HASURA_GRAPHQL_ENDPOINT environment variable is not defined.",
   );
+}
+
+const HASURA_ADMIN_SECRET = process.env.HASURA_ADMIN_SECRET_FOR_CODEGEN;
+if (!HASURA_ADMIN_SECRET) {
+  throw new Error("HASURA_ADMIN_SECRET environment variable is not defined.");
 }
 
 const config: CodegenConfig = {
@@ -12,7 +19,7 @@ const config: CodegenConfig = {
   schema: {
     [HASURA_GRAPHQL_ENDPOINT]: {
       headers: {
-        Authorization: `Bearer ${process.env.HASURA_JWT_TOKEN}`,
+        "x-hasura-admin-secret": HASURA_ADMIN_SECRET,
       },
     },
   },
