@@ -1,14 +1,20 @@
 import React from "react";
-import { AppProps } from "next/app";
+// import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { Auth0Provider } from "@auth0/auth0-react";
 import AuthorizedApolloProvider from "lib/apolloClient";
+import type { CustomAppPage } from "next/app";
 
-export default function App(props: AppProps) {
-  const { Component, pageProps } = props;
+const App: CustomAppPage = ({ Component, pageProps }) => {
   const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/success`;
   const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE;
+
+  const getLayout =
+    Component.getLayout ||
+    ((page) => {
+      return page;
+    });
 
   return (
     <>
@@ -35,13 +41,15 @@ export default function App(props: AppProps) {
             withNormalizeCSS
             theme={{
               /** Put your mantine theme override here */
-              colorScheme: "dark",
+              colorScheme: "light",
             }}
           >
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </MantineProvider>
         </AuthorizedApolloProvider>
       </Auth0Provider>
     </>
   );
-}
+};
+
+export default App;

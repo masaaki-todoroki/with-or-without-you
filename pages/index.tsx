@@ -1,7 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Group } from "@mantine/core";
+import type { CustomNextPage } from "next";
+import { DashboardLayout } from "layout";
 
-export default function IndexPage() {
+const Index: CustomNextPage = () => {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
 
   return (
@@ -20,4 +22,8 @@ export default function IndexPage() {
       )}
     </Group>
   );
-}
+};
+
+Index.getLayout = DashboardLayout;
+
+export default Index;
