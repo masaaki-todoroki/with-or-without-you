@@ -7,7 +7,7 @@ import AuthorizedApolloProvider from "lib/apolloClient";
 import type { CustomAppPage } from "next/app";
 
 const App: CustomAppPage = ({ Component, pageProps }) => {
-  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/success`;
+  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/home`;
   const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE;
 
   const getLayout =
