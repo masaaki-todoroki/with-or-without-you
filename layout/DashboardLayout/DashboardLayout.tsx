@@ -8,6 +8,11 @@ const SideNav = dynamic(async () => {
   return SideNav;
 });
 
+const Header = dynamic(async () => {
+  const { Header } = await import("layout/DashboardLayout/Header");
+  return Header;
+});
+
 export const DashboardLayout: CustomLayout = (page) => {
   return (
     <AppShell
@@ -24,6 +29,7 @@ export const DashboardLayout: CustomLayout = (page) => {
         </>
       }
     >
+      <Header />
       <Box py="xl" px="md">
         <LayoutErrorBoundary>{page}</LayoutErrorBoundary>
       </Box>
