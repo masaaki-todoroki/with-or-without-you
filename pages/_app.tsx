@@ -1,10 +1,9 @@
 import React from "react";
-// import { AppProps } from "next/app";
 import Head from "next/head";
-import { MantineProvider } from "@mantine/core";
 import { Auth0Provider } from "@auth0/auth0-react";
 import AuthorizedApolloProvider from "lib/apolloClient";
 import type { CustomAppPage } from "next/app";
+import { AppMantineProvider, GlobalStyleProvider } from "lib/mantine";
 
 const App: CustomAppPage = ({ Component, pageProps }) => {
   const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/home`;
@@ -19,7 +18,7 @@ const App: CustomAppPage = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Page title</title>
+        <title>With or Without You</title>
         <link rel="shortcut icon" href="/favicon.svg" />
         <meta
           name="viewport"
@@ -36,16 +35,11 @@ const App: CustomAppPage = ({ Component, pageProps }) => {
         }}
       >
         <AuthorizedApolloProvider>
-          <MantineProvider
-            withGlobalStyles
-            withNormalizeCSS
-            theme={{
-              /** Put your mantine theme override here */
-              colorScheme: "light",
-            }}
-          >
-            {getLayout(<Component {...pageProps} />)}
-          </MantineProvider>
+          <GlobalStyleProvider>
+            <AppMantineProvider>
+              {getLayout(<Component {...pageProps} />)}
+            </AppMantineProvider>
+          </GlobalStyleProvider>
         </AuthorizedApolloProvider>
       </Auth0Provider>
     </>
