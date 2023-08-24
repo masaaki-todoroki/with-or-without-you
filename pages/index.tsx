@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Group } from "@mantine/core";
 import type { CustomNextPage } from "next";
 
-const Index: CustomNextPage = () => {
+const Authentication: CustomNextPage = () => {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
 
   return (
@@ -23,4 +23,4 @@ const Index: CustomNextPage = () => {
   );
 };
 
-export default Index;
+export default Authentication;

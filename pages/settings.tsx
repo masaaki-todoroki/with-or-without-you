@@ -1,24 +1,22 @@
 import { Stack } from "@mantine/core";
 import type { CustomNextPage } from "next";
 import { Box, Text } from "@mantine/core";
-import { DashboardLayout } from "layout";
-import { PageContainer } from "component/PageContainer";
-import { PageContent } from "component/PageContent";
+import { Dashboard } from "components/layout/dashboard/Dashboard";
+import { PageContainer } from "components/PageContainer";
+import { ContentCard } from "components/ContentCard";
 
-const Home: CustomNextPage = () => {
-  return (
-    <PageContainer title="設定" fluid>
-      <Stack spacing="xl">
-        <PageContent title="設定">
-          <Box>
-            <Text>設定画面</Text>
-          </Box>
-        </PageContent>
-      </Stack>
-    </PageContainer>
-  );
-};
+const Home: CustomNextPage = () => (
+  <PageContainer title="設定" fluid>
+    <Stack spacing="xl">
+      <ContentCard title="設定">
+        <Box>
+          <Text>設定画面</Text>
+        </Box>
+      </ContentCard>
+    </Stack>
+  </PageContainer>
+);
 
-Home.getLayout = DashboardLayout;
+Home.getLayout = Dashboard;
 
 export default Home;

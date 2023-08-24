@@ -3,7 +3,8 @@ import Head from "next/head";
 import { Auth0Provider } from "@auth0/auth0-react";
 import AuthorizedApolloProvider from "lib/apolloClient";
 import type { CustomAppPage } from "next/app";
-import { AppMantineProvider, GlobalStyleProvider } from "lib/mantine";
+import { AppMantineProvider } from "lib/provider/AppMantineProvider";
+import { GlobalStyleProvider } from "lib/provider/GlobalStyleProvider";
 
 const App: CustomAppPage = ({ Component, pageProps }) => {
   const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/home`;
@@ -31,7 +32,7 @@ const App: CustomAppPage = ({ Component, pageProps }) => {
         clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || ""}
         authorizationParams={{
           redirect_uri: `${redirectUri}`,
-          audience: `${audience}` || "",
+          audience: `${audience}` || ""
         }}
       >
         <AuthorizedApolloProvider>
