@@ -4,14 +4,14 @@ import {
   ApolloClient,
   HttpLink,
   InMemoryCache,
-  ApolloLink,
+  ApolloLink
 } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setContext } from "@apollo/client/link/context";
 import "cross-fetch/polyfill";
 
 const AuthorizedApolloProvider = ({
-  children,
+  children
 }: React.PropsWithChildren<{}>) => {
   const { getAccessTokenSilently } = useAuth0();
 
@@ -21,8 +21,8 @@ const AuthorizedApolloProvider = ({
     try {
       token = await getAccessTokenSilently({
         authorizationParams: {
-          audience,
-        },
+          audience
+        }
       });
     } catch (error) {
       console.error(error);
@@ -32,19 +32,19 @@ const AuthorizedApolloProvider = ({
       ...rest,
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : "",
-      },
+        authorization: token ? `Bearer ${token}` : ""
+      }
     };
   });
 
   const httpLink = new HttpLink({
-    uri: process.env.NEXT_PUBLIC_HASURA_ENDPOINT,
+    uri: process.env.NEXT_PUBLIC_HASURA_ENDPOINT
   });
 
   const client = new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: ApolloLink.from([authLink, httpLink]),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache()
   });
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;

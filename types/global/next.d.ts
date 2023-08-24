@@ -13,6 +13,6 @@ declare module "next" {
 
 declare module "next/app" {
   type CustomAppPage<P = Record<string, unknown>> = (
-    props: AppProps<P> & { Component: NextPage & PageAttributes },
+    props: AppProps<P> & { Component: NextPage & PageAttributes }
   ) => JSX.Element;
 }
