@@ -1,19 +1,25 @@
 import React from "react";
-import { AppProps } from "next/app";
 import Head from "next/head";
-import { MantineProvider } from "@mantine/core";
 import { Auth0Provider } from "@auth0/auth0-react";
 import AuthorizedApolloProvider from "lib/apolloClient";
+import type { CustomAppPage } from "next/app";
+import { AppMantineProvider } from "lib/provider/AppMantineProvider";
+import { GlobalStyleProvider } from "lib/provider/GlobalStyleProvider";
 
-export default function App(props: AppProps) {
-  const { Component, pageProps } = props;
-  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/success`;
+const App: CustomAppPage = ({ Component, pageProps }) => {
+  const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/home`;
   const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE;
+
+  const getLayout =
+    Component.getLayout ||
+    ((page) => {
+      return page;
+    });
 
   return (
     <>
       <Head>
-        <title>Page title</title>
+        <title>With or Without You</title>
         <link rel="shortcut icon" href="/favicon.svg" />
         <meta
           name="viewport"
@@ -26,22 +32,19 @@ export default function App(props: AppProps) {
         clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || ""}
         authorizationParams={{
           redirect_uri: `${redirectUri}`,
-          audience: `${audience}` || "",
+          audience: `${audience}` || ""
         }}
       >
         <AuthorizedApolloProvider>
-          <MantineProvider
-            withGlobalStyles
-            withNormalizeCSS
-            theme={{
-              /** Put your mantine theme override here */
-              colorScheme: "dark",
-            }}
-          >
-            <Component {...pageProps} />
-          </MantineProvider>
+          <GlobalStyleProvider>
+            <AppMantineProvider>
+              {getLayout(<Component {...pageProps} />)}
+            </AppMantineProvider>
+          </GlobalStyleProvider>
         </AuthorizedApolloProvider>
       </Auth0Provider>
     </>
   );
-}
+};
+
+export default App;

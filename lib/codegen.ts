@@ -5,7 +5,7 @@ dotenv.config();
 const HASURA_GRAPHQL_ENDPOINT = process.env.HASURA_ENDPOINT_FOR_CODEGEN;
 if (!HASURA_GRAPHQL_ENDPOINT) {
   throw new Error(
-    "HASURA_GRAPHQL_ENDPOINT environment variable is not defined.",
+    "HASURA_GRAPHQL_ENDPOINT environment variable is not defined."
   );
 }
 
@@ -19,9 +19,9 @@ const config: CodegenConfig = {
   schema: {
     [HASURA_GRAPHQL_ENDPOINT]: {
       headers: {
-        "x-hasura-admin-secret": HASURA_ADMIN_SECRET,
-      },
-    },
+        "x-hasura-admin-secret": HASURA_ADMIN_SECRET
+      }
+    }
   },
   documents: "queries/**/*.ts",
   generates: {
@@ -30,18 +30,18 @@ const config: CodegenConfig = {
       plugins: [
         "typescript",
         "typescript-operations",
-        "typescript-react-apollo",
+        "typescript-react-apollo"
       ],
       config: {
         withHooks: true,
         withHOC: false,
-        withComponent: false,
-      },
+        withComponent: false
+      }
     },
     "./graphql.schema.json": {
-      plugins: ["introspection"],
-    },
-  },
+      plugins: ["introspection"]
+    }
+  }
 };
 
 export default config;
