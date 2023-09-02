@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 import {
   Home,
+  Heart,
   Settings,
   ArrowLeft,
   ArrowRight,
@@ -21,6 +22,7 @@ import { useStyles } from "components/layout/dashboard/SideNav.styles";
 
 const MENUS = [
   { href: getPath("HOME"), label: "ホーム", Icon: Home },
+  { href: getPath("STAFF"), label: "スタッフ", Icon: Heart },
   { href: getPath("SETTINGS"), label: "設定", Icon: Settings }
 ];
 
@@ -52,7 +54,7 @@ export const SideNav: FC<{ className?: string }> = ({ className }) => {
             <Link
               href={href}
               className={
-                currentRoute === href
+                currentRoute.startsWith(href)
                   ? cx(classes.link, classes.linkActive)
                   : classes.link
               }

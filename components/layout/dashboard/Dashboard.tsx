@@ -1,19 +1,14 @@
-import type { CustomLayout } from "next";
-import dynamic from "next/dynamic";
+import { FC, ReactNode } from "react";
 import { AppShell, Box, MediaQuery } from "@mantine/core";
 import { LayoutErrorBoundary } from "components/layout/LayoutErrorBoundary";
+import { SideNav } from "components/layout/dashboard/SideNav";
+import { Header } from "components/layout/dashboard/Header";
 
-const SideNav = dynamic(async () => {
-  const { SideNav } = await import("components/layout/dashboard/SideNav");
-  return SideNav;
-});
+type Props = {
+  children: ReactNode;
+};
 
-const Header = dynamic(async () => {
-  const { Header } = await import("components/layout/dashboard/Header");
-  return Header;
-});
-
-export const Dashboard: CustomLayout = (page) => (
+export const Dashboard: FC<Props> = ({ children }) => (
   <AppShell
     padding="md"
     styles={(theme) => ({
@@ -30,7 +25,7 @@ export const Dashboard: CustomLayout = (page) => (
   >
     <Header />
     <Box py="xl" px="md">
-      <LayoutErrorBoundary>{page}</LayoutErrorBoundary>
+      <LayoutErrorBoundary>{children}</LayoutErrorBoundary>
     </Box>
   </AppShell>
 );

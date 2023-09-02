@@ -5,16 +5,11 @@ import AuthorizedApolloProvider from "lib/apolloClient";
 import type { CustomAppPage } from "next/app";
 import { AppMantineProvider } from "lib/provider/AppMantineProvider";
 import { GlobalStyleProvider } from "lib/provider/GlobalStyleProvider";
+import { Dashboard } from "components/layout/dashboard/Dashboard";
 
 const App: CustomAppPage = ({ Component, pageProps }) => {
   const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/home`;
   const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE;
-
-  const getLayout =
-    Component.getLayout ||
-    ((page) => {
-      return page;
-    });
 
   return (
     <>
@@ -38,7 +33,9 @@ const App: CustomAppPage = ({ Component, pageProps }) => {
         <AuthorizedApolloProvider>
           <GlobalStyleProvider>
             <AppMantineProvider>
-              {getLayout(<Component {...pageProps} />)}
+              <Dashboard>
+                <Component {...pageProps} />
+              </Dashboard>
             </AppMantineProvider>
           </GlobalStyleProvider>
         </AuthorizedApolloProvider>

@@ -3,170 +3,93 @@ import type { CustomNextPage } from "next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Box, Button, Stack, Text, TextInput } from "@mantine/core";
-import { Dashboard } from "components/layout/dashboard/Dashboard";
+import { Button, Center, Flex, Stack, TextInput } from "@mantine/core";
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
+import { CreatingStaffValidation } from "features/staff/helper/validation";
 
-const RegisterStaffSchema = z.object({
-  email: z
-    .string()
-    .email({ message: "メールアドレスの形式が正しくありません。" })
-    .min(1, { message: "1文字以上入力する必要があります。" }),
-  name: z.string().min(1, { message: "1文字以上入力する必要があります。" }),
-  nickname: z.string().min(1, { message: "1文字以上入力する必要があります。" }),
-  age: z
-    .number()
-    .transform((value) => (isNaN(value) ? -1 : value))
-    .refine((value) => value !== -1, {
-      message: "数字を入力してください。"
-    }),
-  mobile: z
-    .string()
-    .refine(
-      (value) =>
-        /^(0[5-9]0-[0-9]{4}-[0-9]{4}|0[1-9]-[0-9]{1,4}-[0-9]{4})$/.test(
-          value.replace(/-/g, "")
-        ),
-      {
-        message: "電話番号の形式が正しくありません。"
-      }
-    ),
-  lineId: z.string().regex(/^[\u0021-\u007e]+$/u, {
-    message: "半角英数記号で入力してください。"
-  }),
-  xUsername: z.string().regex(/^[\u0021-\u007e]+$/u, {
-    message: "半角英数記号で入力してください。"
-  })
-});
-type RegisterStaffInputType = z.infer<typeof RegisterStaffSchema>;
+type CreatedStaffValue = z.infer<typeof CreatingStaffValidation>;
 
-const STAFF_NEW_CREATE: CustomNextPage = () => {
+const CreateStaff: CustomNextPage = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors }
-  } = useForm<RegisterStaffInputType>({
-    resolver: zodResolver(RegisterStaffSchema)
+  } = useForm<CreatedStaffValue>({
+    resolver: zodResolver(CreatingStaffValidation)
   });
 
-  const handleMobileInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    let { value } = event.target;
-    const cleaned = ("" + value).replace(/\D/g, ""); // 非数字を除去
-    const match = cleaned.match(/^(\d{3})(\d{4})(\d{4})$/);
-    if (match) {
-      value = `${match[1]}-${match[2]}-${match[3]}`;
-    }
-    setValue("mobile", value); // react-hook-formのsetValueを使用
-  };
+  const onSubmit = (createdStaffValue: CreatedStaffValue) =>
+    console.log(createdStaffValue);
 
-  const onSubmit = (data: RegisterStaffInputType) => console.log(data);
+  const convertToNumber = (value: string) => {
+    const parsed = parseInt(value, 10);
+    return isNaN(parsed) ? -1 : parsed;
+  };
 
   return (
     <PageContainer title="スタッフ登録" fluid>
       <Stack spacing="xl">
-        <ContentCard title="">
+        <ContentCard>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Box>
+            <Flex direction="column" gap="xl" justify="center">
               <TextInput
                 label="メールアドレス"
                 {...register("email", { required: true })}
                 placeholder="email@example.com"
+                withAsterisk
+                size="md"
+                error={errors.email?.message}
               />
-              <Text sx={[{ fontSize: "14px", color: "#ff0000" }]}>
-                {typeof errors.email?.message === "string" &&
-                  errors.email?.message}
-              </Text>
-            </Box>
-            <Box sx={[{ marginTop: "20px" }]}>
               <TextInput
                 label="名前"
                 {...register("name", { required: true })}
                 placeholder="山村幸恵"
+                withAsterisk
+                error={errors.name?.message}
               />
-              <Text sx={[{ fontSize: "14px", color: "#ff0000" }]}>
-                {typeof errors.name?.message === "string" &&
-                  errors.name?.message}
-              </Text>
-            </Box>
-            <Box sx={[{ marginTop: "20px" }]}>
               <TextInput
                 label="ニックネーム"
                 {...register("nickname", { required: true })}
                 placeholder="柴咲コウ"
+                withAsterisk
+                error={errors.nickname?.message}
               />
-              <Text sx={[{ fontSize: "14px", color: "#ff0000" }]}>
-                {typeof errors.nickname?.message === "string" &&
-                  errors.nickname?.message}
-              </Text>
-            </Box>
-            <Box sx={[{ marginTop: "20px" }]}>
               <TextInput
                 label="年齢"
                 {...register("age", {
                   required: true,
-                  setValueAs: (value) => {
-                    const parsed = parseInt(value, 10);
-                    return isNaN(parsed) ? -1 : parsed;
-                  }
+                  setValueAs: convertToNumber
                 })}
                 placeholder="32"
+                withAsterisk
+                error={errors.age?.message}
               />
-              <Text sx={[{ fontSize: "14px", color: "#ff0000" }]}>
-                {typeof errors.age?.message === "string" && errors.age?.message}
-              </Text>
-            </Box>
-            <Box sx={[{ marginTop: "20px" }]}>
               <TextInput
                 label="携帯電話"
                 {...register("mobile", {
                   required: true
                 })}
-                onChange={handleMobileInputChange}
-                placeholder="090-1234-5678"
+                placeholder="09012345678"
+                withAsterisk
+                error={errors.mobile?.message}
               />
-              <Text sx={[{ fontSize: "14px", color: "#ff0000" }]}>
-                {typeof errors.mobile?.message === "string" &&
-                  errors.mobile?.message}
-              </Text>
-            </Box>
-            <Box sx={[{ marginTop: "20px" }]}>
               <TextInput
                 label="LINE ID"
                 {...register("lineId")}
-                placeholder=""
+                error={errors.lineId?.message}
               />
-              <Text sx={[{ fontSize: "14px", color: "#ff0000" }]}>
-                {typeof errors.lineId?.message === "string" &&
-                  errors.lineId?.message}
-              </Text>
-            </Box>
-            <Box sx={[{ marginTop: "20px" }]}>
               <TextInput
                 label="X ユーザー名"
                 {...register("xUsername")}
-                placeholder=""
+                error={errors.xUsername?.message}
               />
-              <Text sx={[{ fontSize: "14px", color: "#ff0000" }]}>
-                {typeof errors.xUsername?.message === "string" &&
-                  errors.xUsername?.message}
-              </Text>
-            </Box>
-            <Box
-              sx={[
-                {
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: "20px"
-                }
-              ]}
-            >
-              <Button type="submit">登録</Button>
-            </Box>
+              <Center>
+                <Button type="submit" sx={[{ width: "120px" }]}>
+                  登録
+                </Button>
+              </Center>
+            </Flex>
           </form>
         </ContentCard>
       </Stack>
@@ -174,6 +97,4 @@ const STAFF_NEW_CREATE: CustomNextPage = () => {
   );
 };
 
-STAFF_NEW_CREATE.getLayout = Dashboard;
-
-export default STAFF_NEW_CREATE;
+export default CreateStaff;
