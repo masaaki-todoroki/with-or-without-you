@@ -1,9 +1,22 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import type { CustomNextPage } from "next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button, Center, Flex, Stack, TextInput } from "@mantine/core";
+import { useQuery, useMutation } from "@apollo/client";
+import { GET_USERS, CREATE_STAFF } from "queries/queries";
+import { GetUsersQuery, CreateStaffMutation } from "types/generated/graphql";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Modal,
+  Stack,
+  Text,
+  TextInput
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
 import { CreatingStaffValidation } from "features/staff/helper/validation";
@@ -14,13 +27,54 @@ const CreateStaff: CustomNextPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
     formState: { errors }
   } = useForm<CreatedStaffValue>({
     resolver: zodResolver(CreatingStaffValidation)
   });
 
-  const onSubmit = (createdStaffValue: CreatedStaffValue) =>
-    console.log(createdStaffValue);
+  // Queryフックのセットアップ
+  const { data: userData } = useQuery<GetUsersQuery>(GET_USERS);
+  const id = userData?.users[0].id;
+  useEffect(() => {
+    if (id) {
+      setValue("id", id);
+    }
+  }, [id, setValue]);
+
+  // Mutationフックのセットアップ
+  const [createStaff] = useMutation<CreateStaffMutation>(CREATE_STAFF);
+
+  const [opened, { open, close }] = useDisclosure(false);
+  const [submittedData, setSubmittedData] = useState({
+    id: "",
+    email: "",
+    name: "",
+    nickname: "",
+    age: 18,
+    mobile: "",
+    lineId: "",
+    xUsername: ""
+  });
+
+  const onSubmit = async (createdStaffValue: CreatedStaffValue) => {
+    try {
+      const response = await createStaff({
+        variables: {
+          ...createdStaffValue
+        }
+      });
+      console.log("Response:", response);
+
+      setSubmittedData(createdStaffValue);
+      open();
+
+      reset();
+    } catch (err) {
+      console.error("Error creating staff:", err);
+    }
+  };
 
   const convertToNumber = (value: string) => {
     const parsed = parseInt(value, 10);
@@ -33,6 +87,10 @@ const CreateStaff: CustomNextPage = () => {
         <ContentCard>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Flex direction="column" gap="xl" justify="center">
+              <TextInput
+                type="hidden"
+                {...register("id", { required: true })}
+              />
               <TextInput
                 label="メールアドレス"
                 {...register("email", { required: true })}
@@ -91,6 +149,19 @@ const CreateStaff: CustomNextPage = () => {
               </Center>
             </Flex>
           </form>
+
+          <Modal opened={opened} onClose={close} title="スタッフ登録完了">
+            {submittedData && (
+              <Box>
+                <Text align="center">
+                  {submittedData.name}さんがスタッフ登録されました。
+                </Text>
+              </Box>
+            )}
+            <Center h={60}>
+              <Button onClick={close}>閉じる</Button>
+            </Center>
+          </Modal>
         </ContentCard>
       </Stack>
     </PageContainer>

@@ -1,142 +1,104 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  timestamptz: { input: any; output: any };
-};
-
-/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
-export type Boolean_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _gt?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _gte?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["Boolean"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lte?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _neq?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["Boolean"]["input"]>>;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  timestamptz: { input: any; output: any; }
 };
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["Int"]["input"]>;
-  _gt?: InputMaybe<Scalars["Int"]["input"]>;
-  _gte?: InputMaybe<Scalars["Int"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["Int"]["input"]>;
-  _lte?: InputMaybe<Scalars["Int"]["input"]>;
-  _neq?: InputMaybe<Scalars["Int"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  _eq?: InputMaybe<Scalars['Int']['input']>;
+  _gt?: InputMaybe<Scalars['Int']['input']>;
+  _gte?: InputMaybe<Scalars['Int']['input']>;
+  _in?: InputMaybe<Array<Scalars['Int']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['Int']['input']>;
+  _lte?: InputMaybe<Scalars['Int']['input']>;
+  _neq?: InputMaybe<Scalars['Int']['input']>;
+  _nin?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["String"]["input"]>;
-  _gt?: InputMaybe<Scalars["String"]["input"]>;
-  _gte?: InputMaybe<Scalars["String"]["input"]>;
+  _eq?: InputMaybe<Scalars['String']['input']>;
+  _gt?: InputMaybe<Scalars['String']['input']>;
+  _gte?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given case-insensitive pattern */
-  _ilike?: InputMaybe<Scalars["String"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  _ilike?: InputMaybe<Scalars['String']['input']>;
+  _in?: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex?: InputMaybe<Scalars["String"]["input"]>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
+  _iregex?: InputMaybe<Scalars['String']['input']>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
   /** does the column match the given pattern */
-  _like?: InputMaybe<Scalars["String"]["input"]>;
-  _lt?: InputMaybe<Scalars["String"]["input"]>;
-  _lte?: InputMaybe<Scalars["String"]["input"]>;
-  _neq?: InputMaybe<Scalars["String"]["input"]>;
+  _like?: InputMaybe<Scalars['String']['input']>;
+  _lt?: InputMaybe<Scalars['String']['input']>;
+  _lte?: InputMaybe<Scalars['String']['input']>;
+  _neq?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given case-insensitive pattern */
-  _nilike?: InputMaybe<Scalars["String"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  _nilike?: InputMaybe<Scalars['String']['input']>;
+  _nin?: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex?: InputMaybe<Scalars["String"]["input"]>;
+  _niregex?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given pattern */
-  _nlike?: InputMaybe<Scalars["String"]["input"]>;
+  _nlike?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex?: InputMaybe<Scalars["String"]["input"]>;
+  _nregex?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given SQL regular expression */
-  _nsimilar?: InputMaybe<Scalars["String"]["input"]>;
+  _nsimilar?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given POSIX regular expression, case sensitive */
-  _regex?: InputMaybe<Scalars["String"]["input"]>;
+  _regex?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given SQL regular expression */
-  _similar?: InputMaybe<Scalars["String"]["input"]>;
+  _similar?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** ordering argument of a cursor */
 export enum Cursor_Ordering {
   /** ascending ordering of the cursor */
-  Asc = "ASC",
+  Asc = 'ASC',
   /** descending ordering of the cursor */
-  Desc = "DESC",
+  Desc = 'DESC'
 }
 
 /** mutation root */
 export type Mutation_Root = {
-  __typename?: "mutation_root";
-  /** delete data from the table: "online_users" */
-  delete_online_users?: Maybe<Online_Users_Mutation_Response>;
-  /** delete data from the table: "todos" */
-  delete_todos?: Maybe<Todos_Mutation_Response>;
-  /** delete single row from the table: "todos" */
-  delete_todos_by_pk?: Maybe<Todos>;
+  __typename?: 'mutation_root';
+  /** delete data from the table: "staff" */
+  delete_staff?: Maybe<Staff_Mutation_Response>;
+  /** delete single row from the table: "staff" */
+  delete_staff_by_pk?: Maybe<Staff>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
   delete_users_by_pk?: Maybe<Users>;
-  /** insert data into the table: "online_users" */
-  insert_online_users?: Maybe<Online_Users_Mutation_Response>;
-  /** insert a single row into the table: "online_users" */
-  insert_online_users_one?: Maybe<Online_Users>;
-  /** insert data into the table: "todos" */
-  insert_todos?: Maybe<Todos_Mutation_Response>;
-  /** insert a single row into the table: "todos" */
-  insert_todos_one?: Maybe<Todos>;
+  /** insert data into the table: "staff" */
+  insert_staff?: Maybe<Staff_Mutation_Response>;
+  /** insert a single row into the table: "staff" */
+  insert_staff_one?: Maybe<Staff>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
-  /** update data of the table: "online_users" */
-  update_online_users?: Maybe<Online_Users_Mutation_Response>;
-  /** update multiples rows of table: "online_users" */
-  update_online_users_many?: Maybe<
-    Array<Maybe<Online_Users_Mutation_Response>>
-  >;
-  /** update data of the table: "todos" */
-  update_todos?: Maybe<Todos_Mutation_Response>;
-  /** update single row of the table: "todos" */
-  update_todos_by_pk?: Maybe<Todos>;
-  /** update multiples rows of table: "todos" */
-  update_todos_many?: Maybe<Array<Maybe<Todos_Mutation_Response>>>;
+  /** update data of the table: "staff" */
+  update_staff?: Maybe<Staff_Mutation_Response>;
+  /** update single row of the table: "staff" */
+  update_staff_by_pk?: Maybe<Staff>;
+  /** update multiples rows of table: "staff" */
+  update_staff_many?: Maybe<Array<Maybe<Staff_Mutation_Response>>>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -145,52 +107,44 @@ export type Mutation_Root = {
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
 };
 
-/** mutation root */
-export type Mutation_RootDelete_Online_UsersArgs = {
-  where: Online_Users_Bool_Exp;
-};
 
 /** mutation root */
-export type Mutation_RootDelete_TodosArgs = {
-  where: Todos_Bool_Exp;
+export type Mutation_RootDelete_StaffArgs = {
+  where: Staff_Bool_Exp;
 };
 
+
 /** mutation root */
-export type Mutation_RootDelete_Todos_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+export type Mutation_RootDelete_Staff_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_UsersArgs = {
   where: Users_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Users_By_PkArgs = {
-  id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
 };
 
-/** mutation root */
-export type Mutation_RootInsert_Online_UsersArgs = {
-  objects: Array<Online_Users_Insert_Input>;
-};
 
 /** mutation root */
-export type Mutation_RootInsert_Online_Users_OneArgs = {
-  object: Online_Users_Insert_Input;
+export type Mutation_RootInsert_StaffArgs = {
+  objects: Array<Staff_Insert_Input>;
+  on_conflict?: InputMaybe<Staff_On_Conflict>;
 };
 
-/** mutation root */
-export type Mutation_RootInsert_TodosArgs = {
-  objects: Array<Todos_Insert_Input>;
-  on_conflict?: InputMaybe<Todos_On_Conflict>;
-};
 
 /** mutation root */
-export type Mutation_RootInsert_Todos_OneArgs = {
-  object: Todos_Insert_Input;
-  on_conflict?: InputMaybe<Todos_On_Conflict>;
+export type Mutation_RootInsert_Staff_OneArgs = {
+  object: Staff_Insert_Input;
+  on_conflict?: InputMaybe<Staff_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_UsersArgs = {
@@ -198,41 +152,35 @@ export type Mutation_RootInsert_UsersArgs = {
   on_conflict?: InputMaybe<Users_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Users_OneArgs = {
   object: Users_Insert_Input;
   on_conflict?: InputMaybe<Users_On_Conflict>;
 };
 
-/** mutation root */
-export type Mutation_RootUpdate_Online_UsersArgs = {
-  _set?: InputMaybe<Online_Users_Set_Input>;
-  where: Online_Users_Bool_Exp;
-};
 
 /** mutation root */
-export type Mutation_RootUpdate_Online_Users_ManyArgs = {
-  updates: Array<Online_Users_Updates>;
+export type Mutation_RootUpdate_StaffArgs = {
+  _inc?: InputMaybe<Staff_Inc_Input>;
+  _set?: InputMaybe<Staff_Set_Input>;
+  where: Staff_Bool_Exp;
 };
 
-/** mutation root */
-export type Mutation_RootUpdate_TodosArgs = {
-  _inc?: InputMaybe<Todos_Inc_Input>;
-  _set?: InputMaybe<Todos_Set_Input>;
-  where: Todos_Bool_Exp;
-};
 
 /** mutation root */
-export type Mutation_RootUpdate_Todos_By_PkArgs = {
-  _inc?: InputMaybe<Todos_Inc_Input>;
-  _set?: InputMaybe<Todos_Set_Input>;
-  pk_columns: Todos_Pk_Columns_Input;
+export type Mutation_RootUpdate_Staff_By_PkArgs = {
+  _inc?: InputMaybe<Staff_Inc_Input>;
+  _set?: InputMaybe<Staff_Set_Input>;
+  pk_columns: Staff_Pk_Columns_Input;
 };
 
+
 /** mutation root */
-export type Mutation_RootUpdate_Todos_ManyArgs = {
-  updates: Array<Todos_Updates>;
+export type Mutation_RootUpdate_Staff_ManyArgs = {
+  updates: Array<Staff_Updates>;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
@@ -240,157 +188,43 @@ export type Mutation_RootUpdate_UsersArgs = {
   where: Users_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Users_By_PkArgs = {
   _set?: InputMaybe<Users_Set_Input>;
   pk_columns: Users_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Users_ManyArgs = {
   updates: Array<Users_Updates>;
 };
 
-/** columns and relationships of "online_users" */
-export type Online_Users = {
-  __typename?: "online_users";
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-  /** An object relationship */
-  user?: Maybe<Users>;
-};
-
-/** aggregated selection of "online_users" */
-export type Online_Users_Aggregate = {
-  __typename?: "online_users_aggregate";
-  aggregate?: Maybe<Online_Users_Aggregate_Fields>;
-  nodes: Array<Online_Users>;
-};
-
-/** aggregate fields of "online_users" */
-export type Online_Users_Aggregate_Fields = {
-  __typename?: "online_users_aggregate_fields";
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Online_Users_Max_Fields>;
-  min?: Maybe<Online_Users_Min_Fields>;
-};
-
-/** aggregate fields of "online_users" */
-export type Online_Users_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Online_Users_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** Boolean expression to filter rows from the table "online_users". All fields are combined with a logical 'AND'. */
-export type Online_Users_Bool_Exp = {
-  _and?: InputMaybe<Array<Online_Users_Bool_Exp>>;
-  _not?: InputMaybe<Online_Users_Bool_Exp>;
-  _or?: InputMaybe<Array<Online_Users_Bool_Exp>>;
-  id?: InputMaybe<String_Comparison_Exp>;
-  last_seen?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<Users_Bool_Exp>;
-};
-
-/** input type for inserting data into table "online_users" */
-export type Online_Users_Insert_Input = {
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-};
-
-/** aggregate max on columns */
-export type Online_Users_Max_Fields = {
-  __typename?: "online_users_max_fields";
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Online_Users_Min_Fields = {
-  __typename?: "online_users_min_fields";
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-};
-
-/** response of any mutation on the table "online_users" */
-export type Online_Users_Mutation_Response = {
-  __typename?: "online_users_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Online_Users>;
-};
-
-/** Ordering options when selecting data from "online_users". */
-export type Online_Users_Order_By = {
-  id?: InputMaybe<Order_By>;
-  last_seen?: InputMaybe<Order_By>;
-  user?: InputMaybe<Users_Order_By>;
-};
-
-/** select columns of table "online_users" */
-export enum Online_Users_Select_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  LastSeen = "last_seen",
-}
-
-/** input type for updating data in table "online_users" */
-export type Online_Users_Set_Input = {
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-};
-
-/** Streaming cursor of the table "online_users" */
-export type Online_Users_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Online_Users_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Online_Users_Stream_Cursor_Value_Input = {
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-};
-
-export type Online_Users_Updates = {
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Online_Users_Set_Input>;
-  /** filter the rows which have to be updated */
-  where: Online_Users_Bool_Exp;
-};
-
 /** column ordering options */
 export enum Order_By {
   /** in ascending order, nulls last */
-  Asc = "asc",
+  Asc = 'asc',
   /** in ascending order, nulls first */
-  AscNullsFirst = "asc_nulls_first",
+  AscNullsFirst = 'asc_nulls_first',
   /** in ascending order, nulls last */
-  AscNullsLast = "asc_nulls_last",
+  AscNullsLast = 'asc_nulls_last',
   /** in descending order, nulls first */
-  Desc = "desc",
+  Desc = 'desc',
   /** in descending order, nulls first */
-  DescNullsFirst = "desc_nulls_first",
+  DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = "desc_nulls_last",
+  DescNullsLast = 'desc_nulls_last'
 }
 
 export type Query_Root = {
-  __typename?: "query_root";
-  /** fetch data from the table: "online_users" */
-  online_users: Array<Online_Users>;
-  /** fetch aggregated fields from the table: "online_users" */
-  online_users_aggregate: Online_Users_Aggregate;
-  /** fetch data from the table: "todos" */
-  todos: Array<Todos>;
-  /** fetch aggregated fields from the table: "todos" */
-  todos_aggregate: Todos_Aggregate;
-  /** fetch data from the table: "todos" using primary key columns */
-  todos_by_pk?: Maybe<Todos>;
+  __typename?: 'query_root';
+  /** fetch data from the table: "staff" */
+  staff: Array<Staff>;
+  /** fetch aggregated fields from the table: "staff" */
+  staff_aggregate: Staff_Aggregate;
+  /** fetch data from the table: "staff" using primary key columns */
+  staff_by_pk?: Maybe<Staff>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -399,78 +233,345 @@ export type Query_Root = {
   users_by_pk?: Maybe<Users>;
 };
 
-export type Query_RootOnline_UsersArgs = {
-  distinct_on?: InputMaybe<Array<Online_Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Online_Users_Order_By>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Query_RootStaffArgs = {
+  distinct_on?: InputMaybe<Array<Staff_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Staff_Order_By>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Query_RootOnline_Users_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Online_Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Online_Users_Order_By>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Query_RootStaff_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Staff_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Staff_Order_By>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Query_RootTodosArgs = {
-  distinct_on?: InputMaybe<Array<Todos_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Todos_Order_By>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
+
+export type Query_RootStaff_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
-export type Query_RootTodos_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Todos_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Todos_Order_By>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
-};
-
-export type Query_RootTodos_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
 
 export type Query_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Users_Order_By>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
+
 
 export type Query_RootUsers_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Users_Order_By>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
+
 export type Query_RootUsers_By_PkArgs = {
-  id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
+};
+
+/** columns and relationships of "staff" */
+export type Staff = {
+  __typename?: 'staff';
+  age: Scalars['Int']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  line_id?: Maybe<Scalars['String']['output']>;
+  mobile: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  nickname: Scalars['String']['output'];
+  x_username?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregated selection of "staff" */
+export type Staff_Aggregate = {
+  __typename?: 'staff_aggregate';
+  aggregate?: Maybe<Staff_Aggregate_Fields>;
+  nodes: Array<Staff>;
+};
+
+/** aggregate fields of "staff" */
+export type Staff_Aggregate_Fields = {
+  __typename?: 'staff_aggregate_fields';
+  avg?: Maybe<Staff_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Staff_Max_Fields>;
+  min?: Maybe<Staff_Min_Fields>;
+  stddev?: Maybe<Staff_Stddev_Fields>;
+  stddev_pop?: Maybe<Staff_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Staff_Stddev_Samp_Fields>;
+  sum?: Maybe<Staff_Sum_Fields>;
+  var_pop?: Maybe<Staff_Var_Pop_Fields>;
+  var_samp?: Maybe<Staff_Var_Samp_Fields>;
+  variance?: Maybe<Staff_Variance_Fields>;
+};
+
+
+/** aggregate fields of "staff" */
+export type Staff_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Staff_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Staff_Avg_Fields = {
+  __typename?: 'staff_avg_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "staff". All fields are combined with a logical 'AND'. */
+export type Staff_Bool_Exp = {
+  _and?: InputMaybe<Array<Staff_Bool_Exp>>;
+  _not?: InputMaybe<Staff_Bool_Exp>;
+  _or?: InputMaybe<Array<Staff_Bool_Exp>>;
+  age?: InputMaybe<Int_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  line_id?: InputMaybe<String_Comparison_Exp>;
+  mobile?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  nickname?: InputMaybe<String_Comparison_Exp>;
+  x_username?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "staff" */
+export enum Staff_Constraint {
+  /** unique or primary key constraint on columns "email" */
+  StaffEmailKey = 'staff_email_key',
+  /** unique or primary key constraint on columns "id" */
+  StaffPkey = 'staff_pkey'
+}
+
+/** input type for incrementing numeric columns in table "staff" */
+export type Staff_Inc_Input = {
+  age?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "staff" */
+export type Staff_Insert_Input = {
+  age?: InputMaybe<Scalars['Int']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  line_id?: InputMaybe<Scalars['String']['input']>;
+  mobile?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  x_username?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Staff_Max_Fields = {
+  __typename?: 'staff_max_fields';
+  age?: Maybe<Scalars['Int']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  line_id?: Maybe<Scalars['String']['output']>;
+  mobile?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nickname?: Maybe<Scalars['String']['output']>;
+  x_username?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Staff_Min_Fields = {
+  __typename?: 'staff_min_fields';
+  age?: Maybe<Scalars['Int']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  line_id?: Maybe<Scalars['String']['output']>;
+  mobile?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nickname?: Maybe<Scalars['String']['output']>;
+  x_username?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "staff" */
+export type Staff_Mutation_Response = {
+  __typename?: 'staff_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Staff>;
+};
+
+/** on_conflict condition type for table "staff" */
+export type Staff_On_Conflict = {
+  constraint: Staff_Constraint;
+  update_columns?: Array<Staff_Update_Column>;
+  where?: InputMaybe<Staff_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "staff". */
+export type Staff_Order_By = {
+  age?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  email?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  line_id?: InputMaybe<Order_By>;
+  mobile?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  nickname?: InputMaybe<Order_By>;
+  x_username?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: staff */
+export type Staff_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
+/** select columns of table "staff" */
+export enum Staff_Select_Column {
+  /** column name */
+  Age = 'age',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  LineId = 'line_id',
+  /** column name */
+  Mobile = 'mobile',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Nickname = 'nickname',
+  /** column name */
+  XUsername = 'x_username'
+}
+
+/** input type for updating data in table "staff" */
+export type Staff_Set_Input = {
+  age?: InputMaybe<Scalars['Int']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  line_id?: InputMaybe<Scalars['String']['input']>;
+  mobile?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  x_username?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Staff_Stddev_Fields = {
+  __typename?: 'staff_stddev_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Staff_Stddev_Pop_Fields = {
+  __typename?: 'staff_stddev_pop_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Staff_Stddev_Samp_Fields = {
+  __typename?: 'staff_stddev_samp_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "staff" */
+export type Staff_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Staff_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Staff_Stream_Cursor_Value_Input = {
+  age?: InputMaybe<Scalars['Int']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  line_id?: InputMaybe<Scalars['String']['input']>;
+  mobile?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  x_username?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Staff_Sum_Fields = {
+  __typename?: 'staff_sum_fields';
+  age?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "staff" */
+export enum Staff_Update_Column {
+  /** column name */
+  Age = 'age',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  LineId = 'line_id',
+  /** column name */
+  Mobile = 'mobile',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Nickname = 'nickname',
+  /** column name */
+  XUsername = 'x_username'
+}
+
+export type Staff_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Staff_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Staff_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Staff_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Staff_Var_Pop_Fields = {
+  __typename?: 'staff_var_pop_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Staff_Var_Samp_Fields = {
+  __typename?: 'staff_var_samp_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Staff_Variance_Fields = {
+  __typename?: 'staff_variance_fields';
+  age?: Maybe<Scalars['Float']['output']>;
 };
 
 export type Subscription_Root = {
-  __typename?: "subscription_root";
-  /** fetch data from the table: "online_users" */
-  online_users: Array<Online_Users>;
-  /** fetch aggregated fields from the table: "online_users" */
-  online_users_aggregate: Online_Users_Aggregate;
-  /** fetch data from the table in a streaming manner: "online_users" */
-  online_users_stream: Array<Online_Users>;
-  /** fetch data from the table: "todos" */
-  todos: Array<Todos>;
-  /** fetch aggregated fields from the table: "todos" */
-  todos_aggregate: Todos_Aggregate;
-  /** fetch data from the table: "todos" using primary key columns */
-  todos_by_pk?: Maybe<Todos>;
-  /** fetch data from the table in a streaming manner: "todos" */
-  todos_stream: Array<Todos>;
+  __typename?: 'subscription_root';
+  /** fetch data from the table: "staff" */
+  staff: Array<Staff>;
+  /** fetch aggregated fields from the table: "staff" */
+  staff_aggregate: Staff_Aggregate;
+  /** fetch data from the table: "staff" using primary key columns */
+  staff_by_pk?: Maybe<Staff>;
+  /** fetch data from the table in a streaming manner: "staff" */
+  staff_stream: Array<Staff>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -481,366 +582,108 @@ export type Subscription_Root = {
   users_stream: Array<Users>;
 };
 
-export type Subscription_RootOnline_UsersArgs = {
-  distinct_on?: InputMaybe<Array<Online_Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Online_Users_Order_By>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Subscription_RootStaffArgs = {
+  distinct_on?: InputMaybe<Array<Staff_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Staff_Order_By>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Subscription_RootOnline_Users_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Online_Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Online_Users_Order_By>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Subscription_RootStaff_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Staff_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Staff_Order_By>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Subscription_RootOnline_Users_StreamArgs = {
-  batch_size: Scalars["Int"]["input"];
-  cursor: Array<InputMaybe<Online_Users_Stream_Cursor_Input>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Subscription_RootStaff_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
-export type Subscription_RootTodosArgs = {
-  distinct_on?: InputMaybe<Array<Todos_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Todos_Order_By>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
+
+export type Subscription_RootStaff_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Staff_Stream_Cursor_Input>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Subscription_RootTodos_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Todos_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Todos_Order_By>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
-};
-
-export type Subscription_RootTodos_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
-
-export type Subscription_RootTodos_StreamArgs = {
-  batch_size: Scalars["Int"]["input"];
-  cursor: Array<InputMaybe<Todos_Stream_Cursor_Input>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
-};
 
 export type Subscription_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Users_Order_By>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
+
 
 export type Subscription_RootUsers_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Users_Order_By>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
+
 export type Subscription_RootUsers_By_PkArgs = {
-  id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
 };
 
+
 export type Subscription_RootUsers_StreamArgs = {
-  batch_size: Scalars["Int"]["input"];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Users_Stream_Cursor_Input>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _gt?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _gte?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["timestamptz"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _lte?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _neq?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["timestamptz"]["input"]>>;
-};
-
-/** columns and relationships of "todos" */
-export type Todos = {
-  __typename?: "todos";
-  created_at: Scalars["timestamptz"]["output"];
-  id: Scalars["Int"]["output"];
-  is_completed: Scalars["Boolean"]["output"];
-  is_public: Scalars["Boolean"]["output"];
-  title: Scalars["String"]["output"];
-  /** An object relationship */
-  todos_user: Users;
-  user_id: Scalars["String"]["output"];
-};
-
-/** aggregated selection of "todos" */
-export type Todos_Aggregate = {
-  __typename?: "todos_aggregate";
-  aggregate?: Maybe<Todos_Aggregate_Fields>;
-  nodes: Array<Todos>;
-};
-
-/** aggregate fields of "todos" */
-export type Todos_Aggregate_Fields = {
-  __typename?: "todos_aggregate_fields";
-  avg?: Maybe<Todos_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Todos_Max_Fields>;
-  min?: Maybe<Todos_Min_Fields>;
-  stddev?: Maybe<Todos_Stddev_Fields>;
-  stddev_pop?: Maybe<Todos_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Todos_Stddev_Samp_Fields>;
-  sum?: Maybe<Todos_Sum_Fields>;
-  var_pop?: Maybe<Todos_Var_Pop_Fields>;
-  var_samp?: Maybe<Todos_Var_Samp_Fields>;
-  variance?: Maybe<Todos_Variance_Fields>;
-};
-
-/** aggregate fields of "todos" */
-export type Todos_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Todos_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate avg on columns */
-export type Todos_Avg_Fields = {
-  __typename?: "todos_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** Boolean expression to filter rows from the table "todos". All fields are combined with a logical 'AND'. */
-export type Todos_Bool_Exp = {
-  _and?: InputMaybe<Array<Todos_Bool_Exp>>;
-  _not?: InputMaybe<Todos_Bool_Exp>;
-  _or?: InputMaybe<Array<Todos_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  is_completed?: InputMaybe<Boolean_Comparison_Exp>;
-  is_public?: InputMaybe<Boolean_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  todos_user?: InputMaybe<Users_Bool_Exp>;
-  user_id?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "todos" */
-export enum Todos_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  TodosPkey = "todos_pkey",
-}
-
-/** input type for incrementing numeric columns in table "todos" */
-export type Todos_Inc_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "todos" */
-export type Todos_Insert_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  is_completed?: InputMaybe<Scalars["Boolean"]["input"]>;
-  is_public?: InputMaybe<Scalars["Boolean"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  todos_user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Todos_Max_Fields = {
-  __typename?: "todos_max_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Todos_Min_Fields = {
-  __typename?: "todos_min_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** response of any mutation on the table "todos" */
-export type Todos_Mutation_Response = {
-  __typename?: "todos_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Todos>;
-};
-
-/** on_conflict condition type for table "todos" */
-export type Todos_On_Conflict = {
-  constraint: Todos_Constraint;
-  update_columns?: Array<Todos_Update_Column>;
-  where?: InputMaybe<Todos_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "todos". */
-export type Todos_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  is_completed?: InputMaybe<Order_By>;
-  is_public?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  todos_user?: InputMaybe<Users_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: todos */
-export type Todos_Pk_Columns_Input = {
-  id: Scalars["Int"]["input"];
-};
-
-/** select columns of table "todos" */
-export enum Todos_Select_Column {
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  IsCompleted = "is_completed",
-  /** column name */
-  IsPublic = "is_public",
-  /** column name */
-  Title = "title",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** input type for updating data in table "todos" */
-export type Todos_Set_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  is_completed?: InputMaybe<Scalars["Boolean"]["input"]>;
-  is_public?: InputMaybe<Scalars["Boolean"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Todos_Stddev_Fields = {
-  __typename?: "todos_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Todos_Stddev_Pop_Fields = {
-  __typename?: "todos_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Todos_Stddev_Samp_Fields = {
-  __typename?: "todos_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** Streaming cursor of the table "todos" */
-export type Todos_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Todos_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Todos_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  is_completed?: InputMaybe<Scalars["Boolean"]["input"]>;
-  is_public?: InputMaybe<Scalars["Boolean"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate sum on columns */
-export type Todos_Sum_Fields = {
-  __typename?: "todos_sum_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** update columns of table "todos" */
-export enum Todos_Update_Column {
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  IsCompleted = "is_completed",
-  /** column name */
-  IsPublic = "is_public",
-  /** column name */
-  Title = "title",
-  /** column name */
-  UserId = "user_id",
-}
-
-export type Todos_Updates = {
-  /** increments the numeric columns with given value of the filtered values */
-  _inc?: InputMaybe<Todos_Inc_Input>;
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Todos_Set_Input>;
-  /** filter the rows which have to be updated */
-  where: Todos_Bool_Exp;
-};
-
-/** aggregate var_pop on columns */
-export type Todos_Var_Pop_Fields = {
-  __typename?: "todos_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate var_samp on columns */
-export type Todos_Var_Samp_Fields = {
-  __typename?: "todos_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate variance on columns */
-export type Todos_Variance_Fields = {
-  __typename?: "todos_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  _eq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _lte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _neq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
 };
 
 /** columns and relationships of "users" */
 export type Users = {
-  __typename?: "users";
-  created_at: Scalars["timestamptz"]["output"];
-  id: Scalars["String"]["output"];
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-  name: Scalars["String"]["output"];
+  __typename?: 'users';
+  created_at: Scalars['timestamptz']['output'];
+  id: Scalars['String']['output'];
+  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  name: Scalars['String']['output'];
 };
 
 /** aggregated selection of "users" */
 export type Users_Aggregate = {
-  __typename?: "users_aggregate";
+  __typename?: 'users_aggregate';
   aggregate?: Maybe<Users_Aggregate_Fields>;
   nodes: Array<Users>;
 };
 
 /** aggregate fields of "users" */
 export type Users_Aggregate_Fields = {
-  __typename?: "users_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'users_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Users_Max_Fields>;
   min?: Maybe<Users_Min_Fields>;
 };
 
+
 /** aggregate fields of "users" */
 export type Users_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Users_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
@@ -857,49 +700,42 @@ export type Users_Bool_Exp = {
 /** unique or primary key constraints on table "users" */
 export enum Users_Constraint {
   /** unique or primary key constraint on columns "id" */
-  UsersPkey = "users_pkey",
+  UsersPkey = 'users_pkey'
 }
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Users_Max_Fields = {
-  __typename?: "users_max_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'users_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Users_Min_Fields = {
-  __typename?: "users_min_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'users_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "users" */
 export type Users_Mutation_Response = {
-  __typename?: "users_mutation_response";
+  __typename?: 'users_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Users>;
-};
-
-/** input type for inserting object relation for remote table "users" */
-export type Users_Obj_Rel_Insert_Input = {
-  data: Users_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Users_On_Conflict>;
 };
 
 /** on_conflict condition type for table "users" */
@@ -919,27 +755,27 @@ export type Users_Order_By = {
 
 /** primary key columns input for table: users */
 export type Users_Pk_Columns_Input = {
-  id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "users" */
 export enum Users_Select_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  LastSeen = "last_seen",
+  LastSeen = 'last_seen',
   /** column name */
-  Name = "name",
+  Name = 'name'
 }
 
 /** input type for updating data in table "users" */
 export type Users_Set_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "users" */
@@ -952,22 +788,22 @@ export type Users_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Users_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "users" */
 export enum Users_Update_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  LastSeen = "last_seen",
+  LastSeen = 'last_seen',
   /** column name */
-  Name = "name",
+  Name = 'name'
 }
 
 export type Users_Updates = {
@@ -977,153 +813,123 @@ export type Users_Updates = {
   where: Users_Bool_Exp;
 };
 
-export type GetUsersQueryVariables = Exact<{ [key: string]: never }>;
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetUsersQuery = {
-  __typename?: "query_root";
-  users: Array<{ __typename?: "users"; id: string; name: string }>;
-};
 
-export const GetUsersDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "GetUsers" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "users" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "name" } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetUsersQuery, GetUsersQueryVariables>;
+export type GetUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: string, name: string }> };
+
+export type CreateStaffMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  nickname: Scalars['String']['input'];
+  age: Scalars['Int']['input'];
+  mobile: Scalars['String']['input'];
+  line_id?: InputMaybe<Scalars['String']['input']>;
+  x_username?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type CreateStaffMutation = { __typename?: 'mutation_root', insert_staff_one?: { __typename?: 'staff', id: string, email: string, name: string, nickname: string, age: number, mobile: string, line_id?: string | null, x_username?: string | null } | null };
+
+export type GetStaffQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetStaffQuery = { __typename?: 'query_root', staff: Array<{ __typename?: 'staff', email: string, name: string, nickname: string, age: number, mobile: string, line_id?: string | null, x_username?: string | null }> };
+
+
+export const GetUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetUsersQuery, GetUsersQueryVariables>;
+export const CreateStaffDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateStaff"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nickname"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"age"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"mobile"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"line_id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"x_username"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insert_staff_one"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"nickname"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nickname"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"age"},"value":{"kind":"Variable","name":{"kind":"Name","value":"age"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"mobile"},"value":{"kind":"Variable","name":{"kind":"Name","value":"mobile"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"line_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"line_id"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"x_username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"x_username"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"nickname"}},{"kind":"Field","name":{"kind":"Name","value":"age"}},{"kind":"Field","name":{"kind":"Name","value":"mobile"}},{"kind":"Field","name":{"kind":"Name","value":"line_id"}},{"kind":"Field","name":{"kind":"Name","value":"x_username"}}]}}]}}]} as unknown as DocumentNode<CreateStaffMutation, CreateStaffMutationVariables>;
+export const GetStaffDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetStaff"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"staff"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"nickname"}},{"kind":"Field","name":{"kind":"Name","value":"age"}},{"kind":"Field","name":{"kind":"Name","value":"mobile"}},{"kind":"Field","name":{"kind":"Name","value":"line_id"}},{"kind":"Field","name":{"kind":"Name","value":"x_username"}}]}}]}}]} as unknown as DocumentNode<GetStaffQuery, GetStaffQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  timestamptz: { input: any; output: any };
-};
-
-/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
-export type Boolean_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _gt?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _gte?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["Boolean"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lte?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _neq?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["Boolean"]["input"]>>;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  timestamptz: { input: any; output: any; }
 };
 
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["Int"]["input"]>;
-  _gt?: InputMaybe<Scalars["Int"]["input"]>;
-  _gte?: InputMaybe<Scalars["Int"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["Int"]["input"]>;
-  _lte?: InputMaybe<Scalars["Int"]["input"]>;
-  _neq?: InputMaybe<Scalars["Int"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  _eq?: InputMaybe<Scalars['Int']['input']>;
+  _gt?: InputMaybe<Scalars['Int']['input']>;
+  _gte?: InputMaybe<Scalars['Int']['input']>;
+  _in?: InputMaybe<Array<Scalars['Int']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['Int']['input']>;
+  _lte?: InputMaybe<Scalars['Int']['input']>;
+  _neq?: InputMaybe<Scalars['Int']['input']>;
+  _nin?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["String"]["input"]>;
-  _gt?: InputMaybe<Scalars["String"]["input"]>;
-  _gte?: InputMaybe<Scalars["String"]["input"]>;
+  _eq?: InputMaybe<Scalars['String']['input']>;
+  _gt?: InputMaybe<Scalars['String']['input']>;
+  _gte?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given case-insensitive pattern */
-  _ilike?: InputMaybe<Scalars["String"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  _ilike?: InputMaybe<Scalars['String']['input']>;
+  _in?: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column match the given POSIX regular expression, case insensitive */
-  _iregex?: InputMaybe<Scalars["String"]["input"]>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
+  _iregex?: InputMaybe<Scalars['String']['input']>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
   /** does the column match the given pattern */
-  _like?: InputMaybe<Scalars["String"]["input"]>;
-  _lt?: InputMaybe<Scalars["String"]["input"]>;
-  _lte?: InputMaybe<Scalars["String"]["input"]>;
-  _neq?: InputMaybe<Scalars["String"]["input"]>;
+  _like?: InputMaybe<Scalars['String']['input']>;
+  _lt?: InputMaybe<Scalars['String']['input']>;
+  _lte?: InputMaybe<Scalars['String']['input']>;
+  _neq?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given case-insensitive pattern */
-  _nilike?: InputMaybe<Scalars["String"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  _nilike?: InputMaybe<Scalars['String']['input']>;
+  _nin?: InputMaybe<Array<Scalars['String']['input']>>;
   /** does the column NOT match the given POSIX regular expression, case insensitive */
-  _niregex?: InputMaybe<Scalars["String"]["input"]>;
+  _niregex?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given pattern */
-  _nlike?: InputMaybe<Scalars["String"]["input"]>;
+  _nlike?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given POSIX regular expression, case sensitive */
-  _nregex?: InputMaybe<Scalars["String"]["input"]>;
+  _nregex?: InputMaybe<Scalars['String']['input']>;
   /** does the column NOT match the given SQL regular expression */
-  _nsimilar?: InputMaybe<Scalars["String"]["input"]>;
+  _nsimilar?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given POSIX regular expression, case sensitive */
-  _regex?: InputMaybe<Scalars["String"]["input"]>;
+  _regex?: InputMaybe<Scalars['String']['input']>;
   /** does the column match the given SQL regular expression */
-  _similar?: InputMaybe<Scalars["String"]["input"]>;
+  _similar?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** ordering argument of a cursor */
 export enum Cursor_Ordering {
   /** ascending ordering of the cursor */
-  Asc = "ASC",
+  Asc = 'ASC',
   /** descending ordering of the cursor */
-  Desc = "DESC",
+  Desc = 'DESC'
 }
 
 /** mutation root */
 export type Mutation_Root = {
-  __typename?: "mutation_root";
-  /** delete data from the table: "online_users" */
-  delete_online_users?: Maybe<Online_Users_Mutation_Response>;
-  /** delete data from the table: "todos" */
-  delete_todos?: Maybe<Todos_Mutation_Response>;
-  /** delete single row from the table: "todos" */
-  delete_todos_by_pk?: Maybe<Todos>;
+  __typename?: 'mutation_root';
+  /** delete data from the table: "staff" */
+  delete_staff?: Maybe<Staff_Mutation_Response>;
+  /** delete single row from the table: "staff" */
+  delete_staff_by_pk?: Maybe<Staff>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
   delete_users_by_pk?: Maybe<Users>;
-  /** insert data into the table: "online_users" */
-  insert_online_users?: Maybe<Online_Users_Mutation_Response>;
-  /** insert a single row into the table: "online_users" */
-  insert_online_users_one?: Maybe<Online_Users>;
-  /** insert data into the table: "todos" */
-  insert_todos?: Maybe<Todos_Mutation_Response>;
-  /** insert a single row into the table: "todos" */
-  insert_todos_one?: Maybe<Todos>;
+  /** insert data into the table: "staff" */
+  insert_staff?: Maybe<Staff_Mutation_Response>;
+  /** insert a single row into the table: "staff" */
+  insert_staff_one?: Maybe<Staff>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
-  /** update data of the table: "online_users" */
-  update_online_users?: Maybe<Online_Users_Mutation_Response>;
-  /** update multiples rows of table: "online_users" */
-  update_online_users_many?: Maybe<
-    Array<Maybe<Online_Users_Mutation_Response>>
-  >;
-  /** update data of the table: "todos" */
-  update_todos?: Maybe<Todos_Mutation_Response>;
-  /** update single row of the table: "todos" */
-  update_todos_by_pk?: Maybe<Todos>;
-  /** update multiples rows of table: "todos" */
-  update_todos_many?: Maybe<Array<Maybe<Todos_Mutation_Response>>>;
+  /** update data of the table: "staff" */
+  update_staff?: Maybe<Staff_Mutation_Response>;
+  /** update single row of the table: "staff" */
+  update_staff_by_pk?: Maybe<Staff>;
+  /** update multiples rows of table: "staff" */
+  update_staff_many?: Maybe<Array<Maybe<Staff_Mutation_Response>>>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -1132,52 +938,44 @@ export type Mutation_Root = {
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
 };
 
-/** mutation root */
-export type Mutation_RootDelete_Online_UsersArgs = {
-  where: Online_Users_Bool_Exp;
-};
 
 /** mutation root */
-export type Mutation_RootDelete_TodosArgs = {
-  where: Todos_Bool_Exp;
+export type Mutation_RootDelete_StaffArgs = {
+  where: Staff_Bool_Exp;
 };
 
+
 /** mutation root */
-export type Mutation_RootDelete_Todos_By_PkArgs = {
-  id: Scalars["Int"]["input"];
+export type Mutation_RootDelete_Staff_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_UsersArgs = {
   where: Users_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Users_By_PkArgs = {
-  id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
 };
 
-/** mutation root */
-export type Mutation_RootInsert_Online_UsersArgs = {
-  objects: Array<Online_Users_Insert_Input>;
-};
 
 /** mutation root */
-export type Mutation_RootInsert_Online_Users_OneArgs = {
-  object: Online_Users_Insert_Input;
+export type Mutation_RootInsert_StaffArgs = {
+  objects: Array<Staff_Insert_Input>;
+  on_conflict?: InputMaybe<Staff_On_Conflict>;
 };
 
-/** mutation root */
-export type Mutation_RootInsert_TodosArgs = {
-  objects: Array<Todos_Insert_Input>;
-  on_conflict?: InputMaybe<Todos_On_Conflict>;
-};
 
 /** mutation root */
-export type Mutation_RootInsert_Todos_OneArgs = {
-  object: Todos_Insert_Input;
-  on_conflict?: InputMaybe<Todos_On_Conflict>;
+export type Mutation_RootInsert_Staff_OneArgs = {
+  object: Staff_Insert_Input;
+  on_conflict?: InputMaybe<Staff_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_UsersArgs = {
@@ -1185,41 +983,35 @@ export type Mutation_RootInsert_UsersArgs = {
   on_conflict?: InputMaybe<Users_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Users_OneArgs = {
   object: Users_Insert_Input;
   on_conflict?: InputMaybe<Users_On_Conflict>;
 };
 
-/** mutation root */
-export type Mutation_RootUpdate_Online_UsersArgs = {
-  _set?: InputMaybe<Online_Users_Set_Input>;
-  where: Online_Users_Bool_Exp;
-};
 
 /** mutation root */
-export type Mutation_RootUpdate_Online_Users_ManyArgs = {
-  updates: Array<Online_Users_Updates>;
+export type Mutation_RootUpdate_StaffArgs = {
+  _inc?: InputMaybe<Staff_Inc_Input>;
+  _set?: InputMaybe<Staff_Set_Input>;
+  where: Staff_Bool_Exp;
 };
 
-/** mutation root */
-export type Mutation_RootUpdate_TodosArgs = {
-  _inc?: InputMaybe<Todos_Inc_Input>;
-  _set?: InputMaybe<Todos_Set_Input>;
-  where: Todos_Bool_Exp;
-};
 
 /** mutation root */
-export type Mutation_RootUpdate_Todos_By_PkArgs = {
-  _inc?: InputMaybe<Todos_Inc_Input>;
-  _set?: InputMaybe<Todos_Set_Input>;
-  pk_columns: Todos_Pk_Columns_Input;
+export type Mutation_RootUpdate_Staff_By_PkArgs = {
+  _inc?: InputMaybe<Staff_Inc_Input>;
+  _set?: InputMaybe<Staff_Set_Input>;
+  pk_columns: Staff_Pk_Columns_Input;
 };
 
+
 /** mutation root */
-export type Mutation_RootUpdate_Todos_ManyArgs = {
-  updates: Array<Todos_Updates>;
+export type Mutation_RootUpdate_Staff_ManyArgs = {
+  updates: Array<Staff_Updates>;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
@@ -1227,157 +1019,43 @@ export type Mutation_RootUpdate_UsersArgs = {
   where: Users_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Users_By_PkArgs = {
   _set?: InputMaybe<Users_Set_Input>;
   pk_columns: Users_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Users_ManyArgs = {
   updates: Array<Users_Updates>;
 };
 
-/** columns and relationships of "online_users" */
-export type Online_Users = {
-  __typename?: "online_users";
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-  /** An object relationship */
-  user?: Maybe<Users>;
-};
-
-/** aggregated selection of "online_users" */
-export type Online_Users_Aggregate = {
-  __typename?: "online_users_aggregate";
-  aggregate?: Maybe<Online_Users_Aggregate_Fields>;
-  nodes: Array<Online_Users>;
-};
-
-/** aggregate fields of "online_users" */
-export type Online_Users_Aggregate_Fields = {
-  __typename?: "online_users_aggregate_fields";
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Online_Users_Max_Fields>;
-  min?: Maybe<Online_Users_Min_Fields>;
-};
-
-/** aggregate fields of "online_users" */
-export type Online_Users_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Online_Users_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** Boolean expression to filter rows from the table "online_users". All fields are combined with a logical 'AND'. */
-export type Online_Users_Bool_Exp = {
-  _and?: InputMaybe<Array<Online_Users_Bool_Exp>>;
-  _not?: InputMaybe<Online_Users_Bool_Exp>;
-  _or?: InputMaybe<Array<Online_Users_Bool_Exp>>;
-  id?: InputMaybe<String_Comparison_Exp>;
-  last_seen?: InputMaybe<Timestamptz_Comparison_Exp>;
-  user?: InputMaybe<Users_Bool_Exp>;
-};
-
-/** input type for inserting data into table "online_users" */
-export type Online_Users_Insert_Input = {
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-};
-
-/** aggregate max on columns */
-export type Online_Users_Max_Fields = {
-  __typename?: "online_users_max_fields";
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Online_Users_Min_Fields = {
-  __typename?: "online_users_min_fields";
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-};
-
-/** response of any mutation on the table "online_users" */
-export type Online_Users_Mutation_Response = {
-  __typename?: "online_users_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Online_Users>;
-};
-
-/** Ordering options when selecting data from "online_users". */
-export type Online_Users_Order_By = {
-  id?: InputMaybe<Order_By>;
-  last_seen?: InputMaybe<Order_By>;
-  user?: InputMaybe<Users_Order_By>;
-};
-
-/** select columns of table "online_users" */
-export enum Online_Users_Select_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  LastSeen = "last_seen",
-}
-
-/** input type for updating data in table "online_users" */
-export type Online_Users_Set_Input = {
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-};
-
-/** Streaming cursor of the table "online_users" */
-export type Online_Users_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Online_Users_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Online_Users_Stream_Cursor_Value_Input = {
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-};
-
-export type Online_Users_Updates = {
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Online_Users_Set_Input>;
-  /** filter the rows which have to be updated */
-  where: Online_Users_Bool_Exp;
-};
-
 /** column ordering options */
 export enum Order_By {
   /** in ascending order, nulls last */
-  Asc = "asc",
+  Asc = 'asc',
   /** in ascending order, nulls first */
-  AscNullsFirst = "asc_nulls_first",
+  AscNullsFirst = 'asc_nulls_first',
   /** in ascending order, nulls last */
-  AscNullsLast = "asc_nulls_last",
+  AscNullsLast = 'asc_nulls_last',
   /** in descending order, nulls first */
-  Desc = "desc",
+  Desc = 'desc',
   /** in descending order, nulls first */
-  DescNullsFirst = "desc_nulls_first",
+  DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = "desc_nulls_last",
+  DescNullsLast = 'desc_nulls_last'
 }
 
 export type Query_Root = {
-  __typename?: "query_root";
-  /** fetch data from the table: "online_users" */
-  online_users: Array<Online_Users>;
-  /** fetch aggregated fields from the table: "online_users" */
-  online_users_aggregate: Online_Users_Aggregate;
-  /** fetch data from the table: "todos" */
-  todos: Array<Todos>;
-  /** fetch aggregated fields from the table: "todos" */
-  todos_aggregate: Todos_Aggregate;
-  /** fetch data from the table: "todos" using primary key columns */
-  todos_by_pk?: Maybe<Todos>;
+  __typename?: 'query_root';
+  /** fetch data from the table: "staff" */
+  staff: Array<Staff>;
+  /** fetch aggregated fields from the table: "staff" */
+  staff_aggregate: Staff_Aggregate;
+  /** fetch data from the table: "staff" using primary key columns */
+  staff_by_pk?: Maybe<Staff>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -1386,78 +1064,345 @@ export type Query_Root = {
   users_by_pk?: Maybe<Users>;
 };
 
-export type Query_RootOnline_UsersArgs = {
-  distinct_on?: InputMaybe<Array<Online_Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Online_Users_Order_By>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Query_RootStaffArgs = {
+  distinct_on?: InputMaybe<Array<Staff_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Staff_Order_By>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Query_RootOnline_Users_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Online_Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Online_Users_Order_By>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Query_RootStaff_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Staff_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Staff_Order_By>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Query_RootTodosArgs = {
-  distinct_on?: InputMaybe<Array<Todos_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Todos_Order_By>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
+
+export type Query_RootStaff_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
-export type Query_RootTodos_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Todos_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Todos_Order_By>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
-};
-
-export type Query_RootTodos_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
 
 export type Query_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Users_Order_By>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
+
 
 export type Query_RootUsers_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Users_Order_By>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
+
 export type Query_RootUsers_By_PkArgs = {
-  id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
+};
+
+/** columns and relationships of "staff" */
+export type Staff = {
+  __typename?: 'staff';
+  age: Scalars['Int']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  line_id?: Maybe<Scalars['String']['output']>;
+  mobile: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  nickname: Scalars['String']['output'];
+  x_username?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregated selection of "staff" */
+export type Staff_Aggregate = {
+  __typename?: 'staff_aggregate';
+  aggregate?: Maybe<Staff_Aggregate_Fields>;
+  nodes: Array<Staff>;
+};
+
+/** aggregate fields of "staff" */
+export type Staff_Aggregate_Fields = {
+  __typename?: 'staff_aggregate_fields';
+  avg?: Maybe<Staff_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Staff_Max_Fields>;
+  min?: Maybe<Staff_Min_Fields>;
+  stddev?: Maybe<Staff_Stddev_Fields>;
+  stddev_pop?: Maybe<Staff_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Staff_Stddev_Samp_Fields>;
+  sum?: Maybe<Staff_Sum_Fields>;
+  var_pop?: Maybe<Staff_Var_Pop_Fields>;
+  var_samp?: Maybe<Staff_Var_Samp_Fields>;
+  variance?: Maybe<Staff_Variance_Fields>;
+};
+
+
+/** aggregate fields of "staff" */
+export type Staff_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Staff_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type Staff_Avg_Fields = {
+  __typename?: 'staff_avg_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "staff". All fields are combined with a logical 'AND'. */
+export type Staff_Bool_Exp = {
+  _and?: InputMaybe<Array<Staff_Bool_Exp>>;
+  _not?: InputMaybe<Staff_Bool_Exp>;
+  _or?: InputMaybe<Array<Staff_Bool_Exp>>;
+  age?: InputMaybe<Int_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  line_id?: InputMaybe<String_Comparison_Exp>;
+  mobile?: InputMaybe<String_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  nickname?: InputMaybe<String_Comparison_Exp>;
+  x_username?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "staff" */
+export enum Staff_Constraint {
+  /** unique or primary key constraint on columns "email" */
+  StaffEmailKey = 'staff_email_key',
+  /** unique or primary key constraint on columns "id" */
+  StaffPkey = 'staff_pkey'
+}
+
+/** input type for incrementing numeric columns in table "staff" */
+export type Staff_Inc_Input = {
+  age?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "staff" */
+export type Staff_Insert_Input = {
+  age?: InputMaybe<Scalars['Int']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  line_id?: InputMaybe<Scalars['String']['input']>;
+  mobile?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  x_username?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Staff_Max_Fields = {
+  __typename?: 'staff_max_fields';
+  age?: Maybe<Scalars['Int']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  line_id?: Maybe<Scalars['String']['output']>;
+  mobile?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nickname?: Maybe<Scalars['String']['output']>;
+  x_username?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Staff_Min_Fields = {
+  __typename?: 'staff_min_fields';
+  age?: Maybe<Scalars['Int']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  line_id?: Maybe<Scalars['String']['output']>;
+  mobile?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  nickname?: Maybe<Scalars['String']['output']>;
+  x_username?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "staff" */
+export type Staff_Mutation_Response = {
+  __typename?: 'staff_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Staff>;
+};
+
+/** on_conflict condition type for table "staff" */
+export type Staff_On_Conflict = {
+  constraint: Staff_Constraint;
+  update_columns?: Array<Staff_Update_Column>;
+  where?: InputMaybe<Staff_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "staff". */
+export type Staff_Order_By = {
+  age?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  email?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  line_id?: InputMaybe<Order_By>;
+  mobile?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  nickname?: InputMaybe<Order_By>;
+  x_username?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: staff */
+export type Staff_Pk_Columns_Input = {
+  id: Scalars['String']['input'];
+};
+
+/** select columns of table "staff" */
+export enum Staff_Select_Column {
+  /** column name */
+  Age = 'age',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  LineId = 'line_id',
+  /** column name */
+  Mobile = 'mobile',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Nickname = 'nickname',
+  /** column name */
+  XUsername = 'x_username'
+}
+
+/** input type for updating data in table "staff" */
+export type Staff_Set_Input = {
+  age?: InputMaybe<Scalars['Int']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  line_id?: InputMaybe<Scalars['String']['input']>;
+  mobile?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  x_username?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Staff_Stddev_Fields = {
+  __typename?: 'staff_stddev_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Staff_Stddev_Pop_Fields = {
+  __typename?: 'staff_stddev_pop_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Staff_Stddev_Samp_Fields = {
+  __typename?: 'staff_stddev_samp_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "staff" */
+export type Staff_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Staff_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Staff_Stream_Cursor_Value_Input = {
+  age?: InputMaybe<Scalars['Int']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  line_id?: InputMaybe<Scalars['String']['input']>;
+  mobile?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  nickname?: InputMaybe<Scalars['String']['input']>;
+  x_username?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Staff_Sum_Fields = {
+  __typename?: 'staff_sum_fields';
+  age?: Maybe<Scalars['Int']['output']>;
+};
+
+/** update columns of table "staff" */
+export enum Staff_Update_Column {
+  /** column name */
+  Age = 'age',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  LineId = 'line_id',
+  /** column name */
+  Mobile = 'mobile',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Nickname = 'nickname',
+  /** column name */
+  XUsername = 'x_username'
+}
+
+export type Staff_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Staff_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Staff_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Staff_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Staff_Var_Pop_Fields = {
+  __typename?: 'staff_var_pop_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type Staff_Var_Samp_Fields = {
+  __typename?: 'staff_var_samp_fields';
+  age?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type Staff_Variance_Fields = {
+  __typename?: 'staff_variance_fields';
+  age?: Maybe<Scalars['Float']['output']>;
 };
 
 export type Subscription_Root = {
-  __typename?: "subscription_root";
-  /** fetch data from the table: "online_users" */
-  online_users: Array<Online_Users>;
-  /** fetch aggregated fields from the table: "online_users" */
-  online_users_aggregate: Online_Users_Aggregate;
-  /** fetch data from the table in a streaming manner: "online_users" */
-  online_users_stream: Array<Online_Users>;
-  /** fetch data from the table: "todos" */
-  todos: Array<Todos>;
-  /** fetch aggregated fields from the table: "todos" */
-  todos_aggregate: Todos_Aggregate;
-  /** fetch data from the table: "todos" using primary key columns */
-  todos_by_pk?: Maybe<Todos>;
-  /** fetch data from the table in a streaming manner: "todos" */
-  todos_stream: Array<Todos>;
+  __typename?: 'subscription_root';
+  /** fetch data from the table: "staff" */
+  staff: Array<Staff>;
+  /** fetch aggregated fields from the table: "staff" */
+  staff_aggregate: Staff_Aggregate;
+  /** fetch data from the table: "staff" using primary key columns */
+  staff_by_pk?: Maybe<Staff>;
+  /** fetch data from the table in a streaming manner: "staff" */
+  staff_stream: Array<Staff>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -1468,366 +1413,108 @@ export type Subscription_Root = {
   users_stream: Array<Users>;
 };
 
-export type Subscription_RootOnline_UsersArgs = {
-  distinct_on?: InputMaybe<Array<Online_Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Online_Users_Order_By>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Subscription_RootStaffArgs = {
+  distinct_on?: InputMaybe<Array<Staff_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Staff_Order_By>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Subscription_RootOnline_Users_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Online_Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Online_Users_Order_By>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Subscription_RootStaff_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Staff_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Staff_Order_By>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Subscription_RootOnline_Users_StreamArgs = {
-  batch_size: Scalars["Int"]["input"];
-  cursor: Array<InputMaybe<Online_Users_Stream_Cursor_Input>>;
-  where?: InputMaybe<Online_Users_Bool_Exp>;
+
+export type Subscription_RootStaff_By_PkArgs = {
+  id: Scalars['String']['input'];
 };
 
-export type Subscription_RootTodosArgs = {
-  distinct_on?: InputMaybe<Array<Todos_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Todos_Order_By>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
+
+export type Subscription_RootStaff_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Staff_Stream_Cursor_Input>>;
+  where?: InputMaybe<Staff_Bool_Exp>;
 };
 
-export type Subscription_RootTodos_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Todos_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
-  order_by?: InputMaybe<Array<Todos_Order_By>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
-};
-
-export type Subscription_RootTodos_By_PkArgs = {
-  id: Scalars["Int"]["input"];
-};
-
-export type Subscription_RootTodos_StreamArgs = {
-  batch_size: Scalars["Int"]["input"];
-  cursor: Array<InputMaybe<Todos_Stream_Cursor_Input>>;
-  where?: InputMaybe<Todos_Bool_Exp>;
-};
 
 export type Subscription_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Users_Order_By>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
+
 
 export type Subscription_RootUsers_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Users_Order_By>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
+
 export type Subscription_RootUsers_By_PkArgs = {
-  id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
 };
 
+
 export type Subscription_RootUsers_StreamArgs = {
-  batch_size: Scalars["Int"]["input"];
+  batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Users_Stream_Cursor_Input>>;
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _gt?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _gte?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _in?: InputMaybe<Array<Scalars["timestamptz"]["input"]>>;
-  _is_null?: InputMaybe<Scalars["Boolean"]["input"]>;
-  _lt?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _lte?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _neq?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  _nin?: InputMaybe<Array<Scalars["timestamptz"]["input"]>>;
-};
-
-/** columns and relationships of "todos" */
-export type Todos = {
-  __typename?: "todos";
-  created_at: Scalars["timestamptz"]["output"];
-  id: Scalars["Int"]["output"];
-  is_completed: Scalars["Boolean"]["output"];
-  is_public: Scalars["Boolean"]["output"];
-  title: Scalars["String"]["output"];
-  /** An object relationship */
-  todos_user: Users;
-  user_id: Scalars["String"]["output"];
-};
-
-/** aggregated selection of "todos" */
-export type Todos_Aggregate = {
-  __typename?: "todos_aggregate";
-  aggregate?: Maybe<Todos_Aggregate_Fields>;
-  nodes: Array<Todos>;
-};
-
-/** aggregate fields of "todos" */
-export type Todos_Aggregate_Fields = {
-  __typename?: "todos_aggregate_fields";
-  avg?: Maybe<Todos_Avg_Fields>;
-  count: Scalars["Int"]["output"];
-  max?: Maybe<Todos_Max_Fields>;
-  min?: Maybe<Todos_Min_Fields>;
-  stddev?: Maybe<Todos_Stddev_Fields>;
-  stddev_pop?: Maybe<Todos_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Todos_Stddev_Samp_Fields>;
-  sum?: Maybe<Todos_Sum_Fields>;
-  var_pop?: Maybe<Todos_Var_Pop_Fields>;
-  var_samp?: Maybe<Todos_Var_Samp_Fields>;
-  variance?: Maybe<Todos_Variance_Fields>;
-};
-
-/** aggregate fields of "todos" */
-export type Todos_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Todos_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-/** aggregate avg on columns */
-export type Todos_Avg_Fields = {
-  __typename?: "todos_avg_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** Boolean expression to filter rows from the table "todos". All fields are combined with a logical 'AND'. */
-export type Todos_Bool_Exp = {
-  _and?: InputMaybe<Array<Todos_Bool_Exp>>;
-  _not?: InputMaybe<Todos_Bool_Exp>;
-  _or?: InputMaybe<Array<Todos_Bool_Exp>>;
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  is_completed?: InputMaybe<Boolean_Comparison_Exp>;
-  is_public?: InputMaybe<Boolean_Comparison_Exp>;
-  title?: InputMaybe<String_Comparison_Exp>;
-  todos_user?: InputMaybe<Users_Bool_Exp>;
-  user_id?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "todos" */
-export enum Todos_Constraint {
-  /** unique or primary key constraint on columns "id" */
-  TodosPkey = "todos_pkey",
-}
-
-/** input type for incrementing numeric columns in table "todos" */
-export type Todos_Inc_Input = {
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-};
-
-/** input type for inserting data into table "todos" */
-export type Todos_Insert_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  is_completed?: InputMaybe<Scalars["Boolean"]["input"]>;
-  is_public?: InputMaybe<Scalars["Boolean"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  todos_user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate max on columns */
-export type Todos_Max_Fields = {
-  __typename?: "todos_max_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** aggregate min on columns */
-export type Todos_Min_Fields = {
-  __typename?: "todos_min_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["Int"]["output"]>;
-  title?: Maybe<Scalars["String"]["output"]>;
-  user_id?: Maybe<Scalars["String"]["output"]>;
-};
-
-/** response of any mutation on the table "todos" */
-export type Todos_Mutation_Response = {
-  __typename?: "todos_mutation_response";
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
-  /** data from the rows affected by the mutation */
-  returning: Array<Todos>;
-};
-
-/** on_conflict condition type for table "todos" */
-export type Todos_On_Conflict = {
-  constraint: Todos_Constraint;
-  update_columns?: Array<Todos_Update_Column>;
-  where?: InputMaybe<Todos_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "todos". */
-export type Todos_Order_By = {
-  created_at?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  is_completed?: InputMaybe<Order_By>;
-  is_public?: InputMaybe<Order_By>;
-  title?: InputMaybe<Order_By>;
-  todos_user?: InputMaybe<Users_Order_By>;
-  user_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: todos */
-export type Todos_Pk_Columns_Input = {
-  id: Scalars["Int"]["input"];
-};
-
-/** select columns of table "todos" */
-export enum Todos_Select_Column {
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  IsCompleted = "is_completed",
-  /** column name */
-  IsPublic = "is_public",
-  /** column name */
-  Title = "title",
-  /** column name */
-  UserId = "user_id",
-}
-
-/** input type for updating data in table "todos" */
-export type Todos_Set_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  is_completed?: InputMaybe<Scalars["Boolean"]["input"]>;
-  is_public?: InputMaybe<Scalars["Boolean"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate stddev on columns */
-export type Todos_Stddev_Fields = {
-  __typename?: "todos_stddev_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Todos_Stddev_Pop_Fields = {
-  __typename?: "todos_stddev_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Todos_Stddev_Samp_Fields = {
-  __typename?: "todos_stddev_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** Streaming cursor of the table "todos" */
-export type Todos_Stream_Cursor_Input = {
-  /** Stream column input with initial value */
-  initial_value: Todos_Stream_Cursor_Value_Input;
-  /** cursor ordering */
-  ordering?: InputMaybe<Cursor_Ordering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type Todos_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["Int"]["input"]>;
-  is_completed?: InputMaybe<Scalars["Boolean"]["input"]>;
-  is_public?: InputMaybe<Scalars["Boolean"]["input"]>;
-  title?: InputMaybe<Scalars["String"]["input"]>;
-  user_id?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-/** aggregate sum on columns */
-export type Todos_Sum_Fields = {
-  __typename?: "todos_sum_fields";
-  id?: Maybe<Scalars["Int"]["output"]>;
-};
-
-/** update columns of table "todos" */
-export enum Todos_Update_Column {
-  /** column name */
-  CreatedAt = "created_at",
-  /** column name */
-  Id = "id",
-  /** column name */
-  IsCompleted = "is_completed",
-  /** column name */
-  IsPublic = "is_public",
-  /** column name */
-  Title = "title",
-  /** column name */
-  UserId = "user_id",
-}
-
-export type Todos_Updates = {
-  /** increments the numeric columns with given value of the filtered values */
-  _inc?: InputMaybe<Todos_Inc_Input>;
-  /** sets the columns of the filtered rows to the given values */
-  _set?: InputMaybe<Todos_Set_Input>;
-  /** filter the rows which have to be updated */
-  where: Todos_Bool_Exp;
-};
-
-/** aggregate var_pop on columns */
-export type Todos_Var_Pop_Fields = {
-  __typename?: "todos_var_pop_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate var_samp on columns */
-export type Todos_Var_Samp_Fields = {
-  __typename?: "todos_var_samp_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
-};
-
-/** aggregate variance on columns */
-export type Todos_Variance_Fields = {
-  __typename?: "todos_variance_fields";
-  id?: Maybe<Scalars["Float"]["output"]>;
+  _eq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _gte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamptz']['input']>;
+  _lte?: InputMaybe<Scalars['timestamptz']['input']>;
+  _neq?: InputMaybe<Scalars['timestamptz']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
 };
 
 /** columns and relationships of "users" */
 export type Users = {
-  __typename?: "users";
-  created_at: Scalars["timestamptz"]["output"];
-  id: Scalars["String"]["output"];
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-  name: Scalars["String"]["output"];
+  __typename?: 'users';
+  created_at: Scalars['timestamptz']['output'];
+  id: Scalars['String']['output'];
+  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  name: Scalars['String']['output'];
 };
 
 /** aggregated selection of "users" */
 export type Users_Aggregate = {
-  __typename?: "users_aggregate";
+  __typename?: 'users_aggregate';
   aggregate?: Maybe<Users_Aggregate_Fields>;
   nodes: Array<Users>;
 };
 
 /** aggregate fields of "users" */
 export type Users_Aggregate_Fields = {
-  __typename?: "users_aggregate_fields";
-  count: Scalars["Int"]["output"];
+  __typename?: 'users_aggregate_fields';
+  count: Scalars['Int']['output'];
   max?: Maybe<Users_Max_Fields>;
   min?: Maybe<Users_Min_Fields>;
 };
 
+
 /** aggregate fields of "users" */
 export type Users_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Users_Select_Column>>;
-  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
@@ -1844,49 +1531,42 @@ export type Users_Bool_Exp = {
 /** unique or primary key constraints on table "users" */
 export enum Users_Constraint {
   /** unique or primary key constraint on columns "id" */
-  UsersPkey = "users_pkey",
+  UsersPkey = 'users_pkey'
 }
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** aggregate max on columns */
 export type Users_Max_Fields = {
-  __typename?: "users_max_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'users_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** aggregate min on columns */
 export type Users_Min_Fields = {
-  __typename?: "users_min_fields";
-  created_at?: Maybe<Scalars["timestamptz"]["output"]>;
-  id?: Maybe<Scalars["String"]["output"]>;
-  last_seen?: Maybe<Scalars["timestamptz"]["output"]>;
-  name?: Maybe<Scalars["String"]["output"]>;
+  __typename?: 'users_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  last_seen?: Maybe<Scalars['timestamptz']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 /** response of any mutation on the table "users" */
 export type Users_Mutation_Response = {
-  __typename?: "users_mutation_response";
+  __typename?: 'users_mutation_response';
   /** number of rows affected by the mutation */
-  affected_rows: Scalars["Int"]["output"];
+  affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Users>;
-};
-
-/** input type for inserting object relation for remote table "users" */
-export type Users_Obj_Rel_Insert_Input = {
-  data: Users_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Users_On_Conflict>;
 };
 
 /** on_conflict condition type for table "users" */
@@ -1906,27 +1586,27 @@ export type Users_Order_By = {
 
 /** primary key columns input for table: users */
 export type Users_Pk_Columns_Input = {
-  id: Scalars["String"]["input"];
+  id: Scalars['String']['input'];
 };
 
 /** select columns of table "users" */
 export enum Users_Select_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  LastSeen = "last_seen",
+  LastSeen = 'last_seen',
   /** column name */
-  Name = "name",
+  Name = 'name'
 }
 
 /** input type for updating data in table "users" */
 export type Users_Set_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Streaming cursor of the table "users" */
@@ -1939,22 +1619,22 @@ export type Users_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Users_Stream_Cursor_Value_Input = {
-  created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  id?: InputMaybe<Scalars["String"]["input"]>;
-  last_seen?: InputMaybe<Scalars["timestamptz"]["input"]>;
-  name?: InputMaybe<Scalars["String"]["input"]>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  last_seen?: InputMaybe<Scalars['timestamptz']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** update columns of table "users" */
 export enum Users_Update_Column {
   /** column name */
-  CreatedAt = "created_at",
+  CreatedAt = 'created_at',
   /** column name */
-  Id = "id",
+  Id = 'id',
   /** column name */
-  LastSeen = "last_seen",
+  LastSeen = 'last_seen',
   /** column name */
-  Name = "name",
+  Name = 'name'
 }
 
 export type Users_Updates = {
@@ -1964,21 +1644,39 @@ export type Users_Updates = {
   where: Users_Bool_Exp;
 };
 
-export type GetUsersQueryVariables = Exact<{ [key: string]: never }>;
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetUsersQuery = {
-  __typename?: "query_root";
-  users: Array<{ __typename?: "users"; id: string; name: string }>;
-};
+
+export type GetUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: string, name: string }> };
+
+export type CreateStaffMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  nickname: Scalars['String']['input'];
+  age: Scalars['Int']['input'];
+  mobile: Scalars['String']['input'];
+  line_id?: InputMaybe<Scalars['String']['input']>;
+  x_username?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type CreateStaffMutation = { __typename?: 'mutation_root', insert_staff_one?: { __typename?: 'staff', id: string, email: string, name: string, nickname: string, age: number, mobile: string, line_id?: string | null, x_username?: string | null } | null };
+
+export type GetStaffQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetStaffQuery = { __typename?: 'query_root', staff: Array<{ __typename?: 'staff', email: string, name: string, nickname: string, age: number, mobile: string, line_id?: string | null, x_username?: string | null }> };
+
 
 export const GetUsersDocument = gql`
-  query GetUsers {
-    users {
-      id
-      name
-    }
+    query GetUsers {
+  users {
+    id
+    name
   }
-`;
+}
+    `;
 
 /**
  * __useGetUsersQuery__
@@ -1995,32 +1693,103 @@ export const GetUsersDocument = gql`
  *   },
  * });
  */
-export function useGetUsersQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(
-    GetUsersDocument,
-    options,
-  );
-}
-export function useGetUsersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUsersQuery,
-    GetUsersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(
-    GetUsersDocument,
-    options,
-  );
-}
+export function useGetUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+      }
+export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+        }
 export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
-export type GetUsersLazyQueryHookResult = ReturnType<
-  typeof useGetUsersLazyQuery
->;
-export type GetUsersQueryResult = Apollo.QueryResult<
-  GetUsersQuery,
-  GetUsersQueryVariables
->;
+export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
+export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
+export const CreateStaffDocument = gql`
+    mutation CreateStaff($id: String!, $email: String!, $name: String!, $nickname: String!, $age: Int!, $mobile: String!, $line_id: String, $x_username: String) {
+  insert_staff_one(
+    object: {id: $id, email: $email, name: $name, nickname: $nickname, age: $age, mobile: $mobile, line_id: $line_id, x_username: $x_username}
+  ) {
+    id
+    email
+    name
+    nickname
+    age
+    mobile
+    line_id
+    x_username
+  }
+}
+    `;
+export type CreateStaffMutationFn = Apollo.MutationFunction<CreateStaffMutation, CreateStaffMutationVariables>;
+
+/**
+ * __useCreateStaffMutation__
+ *
+ * To run a mutation, you first call `useCreateStaffMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateStaffMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createStaffMutation, { data, loading, error }] = useCreateStaffMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      email: // value for 'email'
+ *      name: // value for 'name'
+ *      nickname: // value for 'nickname'
+ *      age: // value for 'age'
+ *      mobile: // value for 'mobile'
+ *      line_id: // value for 'line_id'
+ *      x_username: // value for 'x_username'
+ *   },
+ * });
+ */
+export function useCreateStaffMutation(baseOptions?: Apollo.MutationHookOptions<CreateStaffMutation, CreateStaffMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateStaffMutation, CreateStaffMutationVariables>(CreateStaffDocument, options);
+      }
+export type CreateStaffMutationHookResult = ReturnType<typeof useCreateStaffMutation>;
+export type CreateStaffMutationResult = Apollo.MutationResult<CreateStaffMutation>;
+export type CreateStaffMutationOptions = Apollo.BaseMutationOptions<CreateStaffMutation, CreateStaffMutationVariables>;
+export const GetStaffDocument = gql`
+    query GetStaff {
+  staff {
+    email
+    name
+    nickname
+    age
+    mobile
+    line_id
+    x_username
+  }
+}
+    `;
+
+/**
+ * __useGetStaffQuery__
+ *
+ * To run a query within a React component, call `useGetStaffQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStaffQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStaffQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetStaffQuery(baseOptions?: Apollo.QueryHookOptions<GetStaffQuery, GetStaffQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetStaffQuery, GetStaffQueryVariables>(GetStaffDocument, options);
+      }
+export function useGetStaffLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStaffQuery, GetStaffQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetStaffQuery, GetStaffQueryVariables>(GetStaffDocument, options);
+        }
+export type GetStaffQueryHookResult = ReturnType<typeof useGetStaffQuery>;
+export type GetStaffLazyQueryHookResult = ReturnType<typeof useGetStaffLazyQuery>;
+export type GetStaffQueryResult = Apollo.QueryResult<GetStaffQuery, GetStaffQueryVariables>;

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const CreatingStaffValidation = z.object({
+  id: z.string(),
   email: z
     .string()
     .email({ message: "メールアドレスの形式が正しくありません。" })
