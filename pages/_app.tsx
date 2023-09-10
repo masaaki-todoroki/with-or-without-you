@@ -3,7 +3,9 @@ import Head from "next/head";
 import { Auth0Provider } from "@auth0/auth0-react";
 import AuthorizedApolloProvider from "lib/apolloClient";
 import type { CustomAppPage } from "next/app";
+import { RecoilRoot } from "recoil";
 import { AppMantineProvider } from "lib/provider/AppMantineProvider";
+import { Notifications } from "@mantine/notifications";
 import { GlobalStyleProvider } from "lib/provider/GlobalStyleProvider";
 import { Dashboard } from "components/layout/dashboard/Dashboard";
 
@@ -31,13 +33,16 @@ const App: CustomAppPage = ({ Component, pageProps }) => {
         }}
       >
         <AuthorizedApolloProvider>
-          <GlobalStyleProvider>
-            <AppMantineProvider>
-              <Dashboard>
-                <Component {...pageProps} />
-              </Dashboard>
-            </AppMantineProvider>
-          </GlobalStyleProvider>
+          <RecoilRoot>
+            <GlobalStyleProvider>
+              <AppMantineProvider>
+                <Notifications />
+                <Dashboard>
+                  <Component {...pageProps} />
+                </Dashboard>
+              </AppMantineProvider>
+            </GlobalStyleProvider>
+          </RecoilRoot>
         </AuthorizedApolloProvider>
       </Auth0Provider>
     </>

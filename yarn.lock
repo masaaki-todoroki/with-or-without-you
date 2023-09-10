@@ -508,6 +508,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
+  version "7.22.15"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.15.tgz#38f46494ccf6cf020bd4eed7124b425e83e523b8"
+  integrity sha512-T0O+aa+4w0u06iNmapipJXMV4HoUir03hpx3/YqXXhu9xim3w+dVphjFWl1OH8NbZHw5Lbm9k45drDkgq2VNNA==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.18.10", "@babel/template@^7.20.7", "@babel/template@^7.22.5":
   version "7.22.5"
   resolved "https://registry.npmjs.org/@babel/template/-/template-7.22.5.tgz"
@@ -1302,6 +1309,14 @@
     "@mantine/ssr" "6.0.0"
     "@mantine/styles" "6.0.0"
 
+"@mantine/notifications@^6.0.20":
+  version "6.0.20"
+  resolved "https://registry.yarnpkg.com/@mantine/notifications/-/notifications-6.0.20.tgz#08f7c89a994c29e2022620e1cd8eaad948a6584c"
+  integrity sha512-cEBmuu5G3Pz1dUBtFTfcT56jK8QGd87/TQKpYn4vtiEnwSqVAJ+KwIv30CBl8z1T9/LGDpNhcFtho8H2tkGOxQ==
+  dependencies:
+    "@mantine/utils" "6.0.20"
+    react-transition-group "4.4.2"
+
 "@mantine/ssr@6.0.0":
   version "6.0.0"
   resolved "https://registry.npmjs.org/@mantine/ssr/-/ssr-6.0.0.tgz"
@@ -1322,6 +1337,11 @@
   version "6.0.0"
   resolved "https://registry.npmjs.org/@mantine/utils/-/utils-6.0.0.tgz"
   integrity sha512-1AalSgzINKP4uv1DBTkJe/jh6yGwC2xaCQE4Atlr2bSHiLezYFMy/deGQ8XLFFv2AL0sjvewLW4ernlFujGMZg==
+
+"@mantine/utils@6.0.20":
+  version "6.0.20"
+  resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-6.0.20.tgz#c331040c62050edf3a513f3cfb702f3170597c10"
+  integrity sha512-9vsSskPtFyfPW2DOad6brLl9x4MnZtlyhszyoZOyMgXf/vdQbThKhL6PpqUbmlalwQpnCObbkEwVydugeh2dyQ==
 
 "@next/env@13.2.3":
   version "13.2.3"
@@ -2523,6 +2543,14 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+dom-helpers@^5.0.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.2.1.tgz#d9400536b2bf8225ad98fe052e029451ac40e902"
+  integrity sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==
+  dependencies:
+    "@babel/runtime" "^7.8.7"
+    csstype "^3.0.2"
+
 dom-serializer@^1.0.1:
   version "1.4.1"
   resolved "https://registry.npmjs.org/dom-serializer/-/dom-serializer-1.4.1.tgz"
@@ -3315,6 +3343,11 @@ graphql@^16.7.1:
   version "16.7.1"
   resolved "https://registry.npmjs.org/graphql/-/graphql-16.7.1.tgz"
   integrity sha512-DRYR9tf+UGU0KOsMcKAlXeFfX89UiiIZ0dRU3mR0yJfu6OjZqUcp68NnFLnqQU5RexygFoDy1EW+ccOYcPfmHg==
+
+hamt_plus@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/hamt_plus/-/hamt_plus-1.0.2.tgz#e21c252968c7e33b20f6a1b094cd85787a265601"
+  integrity sha512-t2JXKaehnMb9paaYA7J0BX8QQAY8lwfQ9Gjf4pg/mk4krt+cmwmU652HOoWonf+7+EQV97ARPMhhVgU1ra2GhA==
 
 has-bigints@^1.0.1, has-bigints@^1.0.2:
   version "1.0.2"
@@ -4614,7 +4647,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -4717,6 +4750,16 @@ react-textarea-autosize@8.3.4:
     use-composed-ref "^1.3.0"
     use-latest "^1.2.1"
 
+react-transition-group@4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.2.tgz#8b59a56f09ced7b55cbd53c36768b922890d5470"
+  integrity sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    dom-helpers "^5.0.1"
+    loose-envify "^1.4.0"
+    prop-types "^15.6.2"
+
 react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
@@ -4765,10 +4808,22 @@ readable-stream@~1.0.17, readable-stream@~1.0.27-1:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
+recoil@^0.7.7:
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/recoil/-/recoil-0.7.7.tgz#c5f2c843224384c9c09e4a62c060fb4c1454dc8e"
+  integrity sha512-8Og5KPQW9LwC577Vc7Ug2P0vQshkv1y3zG3tSSkWMqkWSwHmE+by06L8JtnGocjW6gcCvfwB3YtrJG6/tWivNQ==
+  dependencies:
+    hamt_plus "1.0.2"
+
 regenerator-runtime@^0.13.4:
   version "0.13.9"
   resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz"
   integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==
+
+regenerator-runtime@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.14.0.tgz#5e19d68eb12d486f797e15a3c6a918f7cec5eb45"
+  integrity sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==
 
 regexp.prototype.flags@^1.4.3:
   version "1.4.3"

@@ -11,7 +11,6 @@ export const GET_USERS = gql`
 
 export const CREATE_STAFF = gql`
   mutation CreateStaff(
-    $id: String!
     $email: String!
     $name: String!
     $nickname: String!
@@ -19,10 +18,10 @@ export const CREATE_STAFF = gql`
     $mobile: String!
     $line_id: String
     $x_username: String
+    $user_id: String!
   ) {
     insert_staff_one(
       object: {
-        id: $id
         email: $email
         name: $name
         nickname: $nickname
@@ -30,9 +29,9 @@ export const CREATE_STAFF = gql`
         mobile: $mobile
         line_id: $line_id
         x_username: $x_username
+        user_id: $user_id
       }
     ) {
-      id
       email
       name
       nickname
@@ -40,6 +39,7 @@ export const CREATE_STAFF = gql`
       mobile
       line_id
       x_username
+      user_id
     }
   }
 `;
@@ -54,6 +54,7 @@ export const GET_STAFF = gql`
       mobile
       line_id
       x_username
+      user_id
     }
   }
 `;

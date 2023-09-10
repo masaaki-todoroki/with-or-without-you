@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const CreatingStaffValidation = z.object({
-  id: z.string(),
   email: z
     .string()
     .email({ message: "メールアドレスの形式が正しくありません。" })
@@ -27,5 +26,6 @@ export const CreatingStaffValidation = z.object({
     .regex(/^[\u0021-\u007e]+$/u, {
       message: "半角英数記号で入力してください。"
     })
-    .or(z.literal(""))
+    .or(z.literal("")),
+  userId: z.string()
 });
