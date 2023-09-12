@@ -3,20 +3,20 @@ import { Box, Paper, Title, Sx } from "@mantine/core";
 
 type Props = {
   children: ReactNode;
-  title: string;
+  title?: string;
   outerTitle?: boolean;
   sx?: Sx;
 };
 
 export const ContentCard: FC<Props> = ({ children, title, outerTitle, sx }) => (
   <Box sx={sx}>
-    {outerTitle && (
+    {title && outerTitle && (
       <Title order={2} mb="sm">
         {title}
       </Title>
     )}
     <Paper shadow="xs" p="md">
-      {!outerTitle && (
+      {title && !outerTitle && (
         <Title order={2} mb="sm">
           {title}
         </Title>

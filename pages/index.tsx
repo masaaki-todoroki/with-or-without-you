@@ -10,6 +10,7 @@ const Authentication: CustomNextPage = () => {
       {isAuthenticated && (
         <div>
           <p>{user?.name}</p>
+          <p>{user?.sub}</p>
           <Button onClick={() => logout()}>ログアウト</Button>
         </div>
       )}

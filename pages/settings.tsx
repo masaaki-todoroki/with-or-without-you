@@ -1,7 +1,6 @@
 import { Stack } from "@mantine/core";
 import type { CustomNextPage } from "next";
 import { Box, Text } from "@mantine/core";
-import { Dashboard } from "components/layout/dashboard/Dashboard";
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
 
@@ -16,7 +15,5 @@ const Home: CustomNextPage = () => (
     </Stack>
   </PageContainer>
 );
-
-Home.getLayout = Dashboard;
 
 export default Home;

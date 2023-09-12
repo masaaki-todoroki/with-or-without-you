@@ -1,7 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Button, Stack, Text } from "@mantine/core";
 import type { CustomNextPage } from "next";
-import { Dashboard } from "components/layout/dashboard/Dashboard";
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
 
@@ -28,7 +27,5 @@ const Home: CustomNextPage = () => {
     </PageContainer>
   );
 };
-
-Home.getLayout = Dashboard;
 
 export default Home;

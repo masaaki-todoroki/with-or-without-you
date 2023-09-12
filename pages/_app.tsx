@@ -3,18 +3,15 @@ import Head from "next/head";
 import { Auth0Provider } from "@auth0/auth0-react";
 import AuthorizedApolloProvider from "lib/apolloClient";
 import type { CustomAppPage } from "next/app";
+import { RecoilRoot } from "recoil";
 import { AppMantineProvider } from "lib/provider/AppMantineProvider";
+import { Notifications } from "@mantine/notifications";
 import { GlobalStyleProvider } from "lib/provider/GlobalStyleProvider";
+import { Dashboard } from "components/layout/dashboard/Dashboard";
 
 const App: CustomAppPage = ({ Component, pageProps }) => {
   const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL}/home`;
   const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE;
-
-  const getLayout =
-    Component.getLayout ||
-    ((page) => {
-      return page;
-    });
 
   return (
     <>
@@ -36,11 +33,16 @@ const App: CustomAppPage = ({ Component, pageProps }) => {
         }}
       >
         <AuthorizedApolloProvider>
-          <GlobalStyleProvider>
-            <AppMantineProvider>
-              {getLayout(<Component {...pageProps} />)}
-            </AppMantineProvider>
-          </GlobalStyleProvider>
+          <RecoilRoot>
+            <GlobalStyleProvider>
+              <AppMantineProvider>
+                <Notifications />
+                <Dashboard>
+                  <Component {...pageProps} />
+                </Dashboard>
+              </AppMantineProvider>
+            </GlobalStyleProvider>
+          </RecoilRoot>
         </AuthorizedApolloProvider>
       </Auth0Provider>
     </>
