@@ -2,6 +2,7 @@ const PATH = {
   Authentication: "/",
   HOME: "/home",
   STAFF: "/staff",
+  STAFF_DETAIL: "/staff/detail",
   STAFF_NEW_CREATE: "/staff/new-create",
   SETTINGS: "/settings"
 } as const;

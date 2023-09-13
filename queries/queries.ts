@@ -14,7 +14,11 @@ export const CREATE_STAFF = gql`
     $email: String!
     $name: String!
     $nickname: String!
+    $nickname_in_english: String!
     $age: Int!
+    $height: Int!
+    $blood_type: String!
+    $comment: String
     $mobile: String!
     $line_id: String
     $x_username: String
@@ -25,7 +29,11 @@ export const CREATE_STAFF = gql`
         email: $email
         name: $name
         nickname: $nickname
+        nickname_in_english: $nickname_in_english
         age: $age
+        height: $height
+        blood_type: $blood_type
+        comment: $comment
         mobile: $mobile
         line_id: $line_id
         x_username: $x_username
@@ -35,7 +43,11 @@ export const CREATE_STAFF = gql`
       email
       name
       nickname
+      nickname_in_english
       age
+      height
+      blood_type
+      comment
       mobile
       line_id
       x_username
@@ -50,7 +62,11 @@ export const GET_STAFF = gql`
       email
       name
       nickname
+      nickname_in_english
       age
+      height
+      blood_type
+      comment
       mobile
       line_id
       x_username
