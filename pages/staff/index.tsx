@@ -15,8 +15,6 @@ import { ContentCard } from "components/ContentCard";
 import { getPath } from "utils/path";
 
 const StaffList: CustomNextPage = () => {
-  // const cardRef = useRef<HTMLDivElement>(null);
-
   const staffs = [
     {
       id: 1,
