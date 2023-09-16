@@ -6,17 +6,17 @@ type Props = {
   title?: string;
   outerTitle?: boolean;
   sx?: Sx;
-  xs: number;
+  splitRatio: number;
 };
 
-export const VerticalSplitContentCard: FC<Props> = ({
+export const SplitContentCard: FC<Props> = ({
   children,
   title,
   outerTitle,
   sx,
-  xs
+  splitRatio
 }) => (
-  <Grid.Col xs={xs}>
+  <Grid.Col xs={splitRatio}>
     <Box sx={sx}>
       {title && outerTitle && (
         <Title order={2} mb="sm">

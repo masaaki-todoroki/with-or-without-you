@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import type { CustomNextPage } from "next";
 import Link from "next/link";
 import {
@@ -16,7 +15,7 @@ import { ContentCard } from "components/ContentCard";
 import { getPath } from "utils/path";
 
 const StaffList: CustomNextPage = () => {
-  const cardRef = useRef<HTMLDivElement>(null);
+  // const cardRef = useRef<HTMLDivElement>(null);
 
   const staffs = [
     {
@@ -114,52 +113,50 @@ const StaffList: CustomNextPage = () => {
   return (
     <PageContainer title="スタッフ" fluid>
       <Stack spacing="xl">
-        <Link href={getPath("STAFF_NEW_CREATE")}>
-          <Button>スタッフ登録</Button>
+        <Link href={getPath("STAFF_NEW_CREATE")} passHref legacyBehavior>
+          <Button component="a" style={{ width: "160px" }}>
+            スタッフ登録
+          </Button>
         </Link>
 
         <ContentCard title="スタッフ一覧">
-          <Grid>
+          <Grid gutter="md">
             {staffs.map((staff) => (
-              <Grid.Col xs={6} sm={6} md={6} lg={4} xl={3} key={staff.id}>
-                <Link
-                  href={getPath("STAFF_DETAIL")}
-                  style={{ textDecoration: "none" }}
-                >
-                  <Card
-                    ref={cardRef}
-                    shadow="sm"
-                    padding="lg"
-                    radius="md"
-                    withBorder
-                    style={{
-                      maxWidth: "240px",
-                      transition: "transform 0.3s ease-in-out",
-                      cursor: "pointer"
-                    }}
-                  >
-                    <Card.Section>
-                      <Image
-                        src={staff.image}
-                        height={240}
-                        width={240}
-                        alt="Norway"
-                      />
-                    </Card.Section>
-                    <Stack sx={{ marginTop: "16px" }} spacing={"xs"}>
-                      <Box>
-                        <Text weight={900} size={"xl"}>
-                          {staff.name}
-                        </Text>
-                      </Box>
-                      <Group>
-                        <Text>{staff.age} 歳</Text>
-                        <Text>{staff.height} cm</Text>
-                        <Text>{staff.bloodType} 型</Text>
-                      </Group>
-                    </Stack>
-                  </Card>
-                </Link>
+              <Grid.Col xs={6} sm={4} md={4} lg={3} xl={3} key={staff.id}>
+                <Card shadow="sm" padding="lg" radius="md" withBorder>
+                  <Card.Section>
+                    <Image src={staff.image} alt={staff.name} />
+                  </Card.Section>
+                  <Stack sx={{ marginTop: "16px" }} spacing={"xs"}>
+                    <Box>
+                      <Text weight={900} size={"xl"}>
+                        {staff.name}
+                      </Text>
+                    </Box>
+                    <Group>
+                      <Text>{staff.age} 歳</Text>
+                      <Text>{staff.height} cm</Text>
+                      <Text>{staff.bloodType} 型</Text>
+                    </Group>
+                    <Link
+                      href={getPath("STAFF_DETAIL")}
+                      passHref
+                      legacyBehavior
+                    >
+                      <Button
+                        component="a"
+                        variant="light"
+                        color="blue"
+                        fullWidth
+                        mt="md"
+                        radius="md"
+                        style={{ marginTop: "0" }}
+                      >
+                        詳細
+                      </Button>
+                    </Link>
+                  </Stack>
+                </Card>
               </Grid.Col>
             ))}
           </Grid>
