@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CreatingStaffValidation = z.object({
+export const StaffBasicDataValidation = z.object({
   email: z
     .string()
     .email({ message: "メールアドレスの形式が正しくありません。" })
@@ -45,4 +45,23 @@ export const CreatingStaffValidation = z.object({
     })
     .or(z.literal("")),
   userId: z.string()
+});
+
+export const StaffThumbnailsValidation = z.object({
+  staffId: z.string(),
+  thumbnailUrl: z
+    .array(
+      z.object({
+        name: z.string(),
+        type: z.string(),
+        size: z.number()
+      })
+    )
+    .optional()
+});
+
+// 統合バリデーションスキーマ
+export const StaffTotalValidation = z.object({
+  ...StaffBasicDataValidation.shape,
+  ...StaffThumbnailsValidation.shape
 });

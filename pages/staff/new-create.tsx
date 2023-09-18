@@ -5,11 +5,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@apollo/client";
-import { CREATE_STAFF } from "queries/queries";
-import { CreateStaffMutation } from "types/generated/graphql";
+import { CREATE_STAFF, REGISTER_STAFF_THUMBNAILS } from "queries/queries";
+import {
+  CreateStaffMutation,
+  RegisterStaffThumbnailsMutation
+} from "types/generated/graphql";
+import { useUploadToS3 } from "utils/useUploadToS3";
+import { ValueComponent } from "components/FileValueComponent";
 import {
   Button,
   Center,
+  FileInput,
   Flex,
   Stack,
   Textarea,
@@ -19,52 +25,157 @@ import { notifications } from "@mantine/notifications";
 import { Check, ExclamationMark } from "tabler-icons-react";
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
-import { CreatingStaffValidation } from "features/staff/helper/validation";
+import {
+  StaffBasicDataValidation,
+  // StaffThumbnailsValidation,
+  StaffTotalValidation
+} from "features/staff/helper/validation";
 
-type CreatedStaffValue = z.infer<typeof CreatingStaffValidation>;
+/* フォームの型定義 */
+type CreatedStaffBasicData = z.infer<typeof StaffBasicDataValidation>;
+// type RegisteredStaffThumbnails = z.infer<typeof StaffThumbnailsValidation>;
+type TotalStaffData = z.infer<typeof StaffTotalValidation>;
 
 const CreateStaff: CustomNextPage = () => {
+  /* react-hook-formの設定 以前のVer. */
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   setValue,
+  //   reset,
+  //   formState: { errors }
+  // } = useForm<CreatedStaffBasicData>({
+  //   resolver: zodResolver(StaffBasicDataValidation)
+  // });
+  /* react-hook-formの設定 画像登録もできるようにしたもの */
   const {
     register,
     handleSubmit,
     setValue,
     reset,
     formState: { errors }
-  } = useForm<CreatedStaffValue>({
-    resolver: zodResolver(CreatingStaffValidation)
+  } = useForm<TotalStaffData>({
+    resolver: zodResolver(StaffTotalValidation)
   });
 
+  /* Auth0のユーザーIDを取得して、react-hook-formにセット */
   const { user } = useAuth0();
   useEffect(() => {
     user && user.sub && setValue("userId", user.sub);
   }, [user, setValue]);
 
-  const [createStaff] = useMutation<CreateStaffMutation>(CREATE_STAFF);
+  /* mutation定義 */
+  const [createStaffBasicData] = useMutation<CreateStaffMutation>(CREATE_STAFF);
+  const [registerStaffThumbnails] =
+    useMutation<RegisterStaffThumbnailsMutation>(REGISTER_STAFF_THUMBNAILS);
 
+  /* 文字列を数値に変換する関数 */
+  const convertToNumber = (value: string) => {
+    const parsed = parseInt(value, 10);
+    return isNaN(parsed) ? -1 : parsed;
+  };
+
+  /* S3への画像アップロード関数 */
+  const { uploadToS3 } = useUploadToS3();
+
+  /* submit時の処理 */
   const onSubmit = useCallback(
-    async (createdStaffValue: CreatedStaffValue) => {
+    //   async (createdStaffBasicData: CreatedStaffBasicData) => {
+    //     try {
+    //       const result = await createStaffBasicData({
+    //         variables: {
+    //           ...createdStaffBasicData,
+    //           nickname_in_english: createdStaffBasicData.nicknameInEnglish,
+    //           line_id: createdStaffBasicData.lineId,
+    //           x_username: createdStaffBasicData.xUsername,
+    //           user_id: createdStaffBasicData.userId,
+    //           blood_type: createdStaffBasicData.bloodType
+    //         }
+    //       });
+    //       result.data &&
+    //         result.data.insert_staff_one &&
+    //         notifications.show({
+    //           title: "スタッフ登録完了！",
+    //           message: `${result.data.insert_staff_one.name}さん、登録しました 🤗`,
+    //           icon: <Check />,
+    //           color: "teal",
+    //           autoClose: 5000
+    //         });
+    //       reset();
+    //     } catch (err) {
+    //       notifications.show({
+    //         title: "スタッフ登録失敗",
+    //         message: `登録に失敗しました。登録されていないメールアドレスで再度お試しください。`,
+    //         icon: <ExclamationMark />,
+    //         color: "red",
+    //         autoClose: 5000
+    //       });
+    //       console.error(err);
+    //     }
+    //   },
+    //   [createStaffBasicData, reset]
+    // );
+
+    async (totalStaffData: TotalStaffData) => {
       try {
-        const result = await createStaff({
+        // 1. テキストデータをHasuraに登録
+        const result = await createStaffBasicData({
           variables: {
-            ...createdStaffValue,
-            nickname_in_english: createdStaffValue.nicknameInEnglish,
-            line_id: createdStaffValue.lineId,
-            x_username: createdStaffValue.xUsername,
-            user_id: createdStaffValue.userId,
-            blood_type: createdStaffValue.bloodType
+            ...totalStaffData,
+            nickname_in_english: totalStaffData.nicknameInEnglish,
+            line_id: totalStaffData.lineId,
+            x_username: totalStaffData.xUsername,
+            user_id: totalStaffData.userId,
+            blood_type: totalStaffData.bloodType
           }
         });
-        result.data &&
-          result.data.insert_staff_one &&
-          notifications.show({
-            title: "スタッフ登録完了！",
-            message: `${result.data.insert_staff_one.name}さん、登録しました 🤗`,
-            icon: <Check />,
-            color: "teal",
-            autoClose: 5000
+
+        // 成功した場合の通知
+        if (result.data && result.data.insert_staff_one) {
+          // notifications.show({
+          //   title: "スタッフ登録完了！",
+          //   message: `${result.data.insert_staff_one.name}さん、登録しました 🤗`,
+          //   icon: <Check />,
+          //   color: "teal",
+          //   autoClose: 5000
+          // });
+        }
+
+        // 2. 選択された画像をS3にアップロード
+        if (
+          totalStaffData.thumbnailUrl &&
+          totalStaffData.thumbnailUrl.length > 0
+        ) {
+          const uploadedUrls = await Promise.all(
+            totalStaffData.thumbnailUrl.map((file) => uploadToS3(file as File))
+          );
+
+          // 3. アップロードされた画像のURLをHasuraに登録
+          const thumbnailResult = await registerStaffThumbnails({
+            variables: {
+              objects: uploadedUrls.map((url) => ({
+                staff_id: result.data!.insert_staff_one!.id,
+                thumbnail_url: url
+              }))
+            }
           });
+
+          // 成功した場合の通知
+          if (thumbnailResult.data) {
+            notifications.show({
+              title: "画像アップロード完了！",
+              message: "画像が正常にアップロードされました 🤗",
+              icon: <Check />,
+              color: "teal",
+              autoClose: 5000
+            });
+          }
+        }
+
+        // フォームをリセット
         reset();
       } catch (err) {
+        // エラーが発生した場合の通知
         notifications.show({
           title: "スタッフ登録失敗",
           message: `登録に失敗しました。登録されていないメールアドレスで再度お試しください。`,
@@ -75,13 +186,8 @@ const CreateStaff: CustomNextPage = () => {
         console.error(err);
       }
     },
-    [createStaff, reset]
+    [createStaffBasicData, registerStaffThumbnails, uploadToS3, reset]
   );
-
-  const convertToNumber = (value: string) => {
-    const parsed = parseInt(value, 10);
-    return isNaN(parsed) ? -1 : parsed;
-  };
 
   return (
     <PageContainer title="スタッフ登録" fluid>
@@ -170,6 +276,16 @@ const CreateStaff: CustomNextPage = () => {
                 label="X ユーザー名"
                 {...register("xUsername")}
                 error={errors.xUsername?.message}
+              />
+              <FileInput
+                label="画像を選択 (複数可)"
+                placeholder="ここをクリックして画像を選択してください。"
+                multiple
+                valueComponent={ValueComponent}
+                {...register("thumbnailUrl")}
+                onChange={(files) => {
+                  setValue("thumbnailUrl", files);
+                }}
               />
               <Center>
                 <Button type="submit" sx={[{ width: "120px" }]}>

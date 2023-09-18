@@ -52,6 +52,20 @@ export const CREATE_STAFF = gql`
       line_id
       x_username
       user_id
+      id
+    }
+  }
+`;
+
+export const REGISTER_STAFF_THUMBNAILS = gql`
+  mutation RegisterStaffThumbnails(
+    $objects: [staff_thumbnails_insert_input!]!
+  ) {
+    insert_staff_thumbnails(objects: $objects) {
+      returning {
+        staff_id
+        thumbnail_url
+      }
     }
   }
 `;
