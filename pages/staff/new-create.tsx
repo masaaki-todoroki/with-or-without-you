@@ -25,29 +25,13 @@ import { notifications } from "@mantine/notifications";
 import { Check, ExclamationMark } from "tabler-icons-react";
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
-import {
-  StaffBasicDataValidation,
-  // StaffThumbnailsValidation,
-  StaffTotalValidation
-} from "features/staff/helper/validation";
+import { StaffTotalValidation } from "features/staff/helper/validation";
 
 /* フォームの型定義 */
-type CreatedStaffBasicData = z.infer<typeof StaffBasicDataValidation>;
-// type RegisteredStaffThumbnails = z.infer<typeof StaffThumbnailsValidation>;
 type TotalStaffData = z.infer<typeof StaffTotalValidation>;
 
 const CreateStaff: CustomNextPage = () => {
-  /* react-hook-formの設定 以前のVer. */
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   setValue,
-  //   reset,
-  //   formState: { errors }
-  // } = useForm<CreatedStaffBasicData>({
-  //   resolver: zodResolver(StaffBasicDataValidation)
-  // });
-  /* react-hook-formの設定 画像登録もできるようにしたもの */
+  /* react-hook-formの設定 */
   const {
     register,
     handleSubmit,
@@ -80,42 +64,6 @@ const CreateStaff: CustomNextPage = () => {
 
   /* submit時の処理 */
   const onSubmit = useCallback(
-    //   async (createdStaffBasicData: CreatedStaffBasicData) => {
-    //     try {
-    //       const result = await createStaffBasicData({
-    //         variables: {
-    //           ...createdStaffBasicData,
-    //           nickname_in_english: createdStaffBasicData.nicknameInEnglish,
-    //           line_id: createdStaffBasicData.lineId,
-    //           x_username: createdStaffBasicData.xUsername,
-    //           user_id: createdStaffBasicData.userId,
-    //           blood_type: createdStaffBasicData.bloodType
-    //         }
-    //       });
-    //       result.data &&
-    //         result.data.insert_staff_one &&
-    //         notifications.show({
-    //           title: "スタッフ登録完了！",
-    //           message: `${result.data.insert_staff_one.name}さん、登録しました 🤗`,
-    //           icon: <Check />,
-    //           color: "teal",
-    //           autoClose: 5000
-    //         });
-    //       reset();
-    //     } catch (err) {
-    //       notifications.show({
-    //         title: "スタッフ登録失敗",
-    //         message: `登録に失敗しました。登録されていないメールアドレスで再度お試しください。`,
-    //         icon: <ExclamationMark />,
-    //         color: "red",
-    //         autoClose: 5000
-    //       });
-    //       console.error(err);
-    //     }
-    //   },
-    //   [createStaffBasicData, reset]
-    // );
-
     async (totalStaffData: TotalStaffData) => {
       try {
         // 1. テキストデータをHasuraに登録
@@ -130,18 +78,20 @@ const CreateStaff: CustomNextPage = () => {
           }
         });
 
-        // 成功した場合の通知
+        // 成功した場合
         if (result.data && result.data.insert_staff_one) {
-          // notifications.show({
-          //   title: "スタッフ登録完了！",
-          //   message: `${result.data.insert_staff_one.name}さん、登録しました 🤗`,
-          //   icon: <Check />,
-          //   color: "teal",
-          //   autoClose: 5000
-          // });
+          // console.log("staff.id", result.data.insert_staff_one.id);
+          // setValue("staffId", result.data.insert_staff_one.id);
+          notifications.show({
+            title: "スタッフ登録完了！",
+            message: `${result.data.insert_staff_one.name}さん、登録しました 🤗`,
+            icon: <Check />,
+            color: "teal",
+            autoClose: 5000
+          });
         }
 
-        // 2. 選択された画像をS3にアップロード
+        /* 選択された画像をS3にアップロード */
         if (
           totalStaffData.thumbnailUrl &&
           totalStaffData.thumbnailUrl.length > 0
@@ -150,17 +100,18 @@ const CreateStaff: CustomNextPage = () => {
             totalStaffData.thumbnailUrl.map((file) => uploadToS3(file as File))
           );
 
-          // 3. アップロードされた画像のURLをHasuraに登録
+          /* アップロードされた画像のURLをHasuraに登録 */
           const thumbnailResult = await registerStaffThumbnails({
             variables: {
               objects: uploadedUrls.map((url) => ({
-                staff_id: result.data!.insert_staff_one!.id,
+                user_id: totalStaffData.userId,
+                // staff_id: totalStaffData.staffId,
                 thumbnail_url: url
               }))
             }
           });
 
-          // 成功した場合の通知
+          /* 成功した場合の通知 */
           if (thumbnailResult.data) {
             notifications.show({
               title: "画像アップロード完了！",
@@ -172,10 +123,10 @@ const CreateStaff: CustomNextPage = () => {
           }
         }
 
-        // フォームをリセット
+        /* フォームをリセット */
         reset();
       } catch (err) {
-        // エラーが発生した場合の通知
+        /* エラーが発生した場合の通知 */
         notifications.show({
           title: "スタッフ登録失敗",
           message: `登録に失敗しました。登録されていないメールアドレスで再度お試しください。`,
@@ -193,7 +144,7 @@ const CreateStaff: CustomNextPage = () => {
     <PageContainer title="スタッフ登録" fluid>
       <Stack spacing="xl">
         <ContentCard>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit, (e) => console.log(e))}>
             <Flex direction="column" gap="xl" justify="center">
               <TextInput
                 label="メールアドレス"

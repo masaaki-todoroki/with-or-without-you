@@ -63,7 +63,8 @@ export const REGISTER_STAFF_THUMBNAILS = gql`
   ) {
     insert_staff_thumbnails(objects: $objects) {
       returning {
-        staff_id
+        user_id
+        # staff_id
         thumbnail_url
       }
     }

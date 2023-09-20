@@ -48,16 +48,21 @@ export const StaffBasicDataValidation = z.object({
 });
 
 export const StaffThumbnailsValidation = z.object({
-  staffId: z.string(),
+  userId: z.string(),
+  // staffId: z.number(),
   thumbnailUrl: z
     .array(
-      z.object({
-        name: z.string(),
-        type: z.string(),
-        size: z.number()
-      })
+      z
+        .custom<File>()
+        .refine((file) => file.size < 500000, {
+          message: "ファイルサイズは最大5MBです"
+        })
+        .refine((file) => ["image/jpeg", "image/png"].includes(file.type), {
+          message: ".jpgもしくは.pngのみ可能です"
+        })
     )
     .optional()
+    .default([])
 });
 
 // 統合バリデーションスキーマ
