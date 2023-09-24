@@ -130,7 +130,7 @@ const StaffList: CustomNextPage = () => {
                   </Card.Section>
                   <Stack sx={{ marginTop: "16px" }} spacing={"xs"}>
                     <Box>
-                      <Text weight="bold" size={"xl"}>
+                      <Text weight="bold" size="xl">
                         {staff.name}
                       </Text>
                     </Box>
