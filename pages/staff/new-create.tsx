@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import type { CustomNextPage } from "next";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useForm, Controller } from "react-hook-form";
@@ -20,6 +20,7 @@ import {
   Center,
   FileInput,
   Flex,
+  LoadingOverlay,
   Stack,
   Textarea,
   TextInput
@@ -41,7 +42,7 @@ const CreateStaff: CustomNextPage = () => {
     handleSubmit,
     control,
     reset,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm<StaffFormValue>({
     resolver: zodResolver(StaffValidation)
   });
@@ -51,13 +52,20 @@ const CreateStaff: CustomNextPage = () => {
   const userId = user?.sub;
 
   /* S3への画像アップロード関数 */
-  const { uploadToS3 } = useUploadToS3();
+  const { uploadToS3, s3Loading } = useUploadToS3();
 
-  /* mutation定義 */
-  const [createStaff] = useMutation<CreateStaffMutation>(CREATE_STAFF);
-  const [createStaffThumbnails] = useMutation<CreateStaffThumbnailsMutation>(
-    CREATE_STAFF_THUMBNAILS
-  );
+  /* FileInputのリセットをトリガーするための状態 */
+  const [fileInputKey, setFileInputKey] = useState<number>(0);
+
+  /* GraphQLのミューテーションを定義 */
+  const [createStaff, { loading: createStaffLoading }] =
+    useMutation<CreateStaffMutation>(CREATE_STAFF);
+  const [createStaffThumbnails, { loading: createStaffThumbnailsLoading }] =
+    useMutation<CreateStaffThumbnailsMutation>(CREATE_STAFF_THUMBNAILS);
+
+  /* ローディング状態の定義 */
+  const isMutationLoading = createStaffLoading || createStaffThumbnailsLoading;
+  const isLoading = isSubmitting || isMutationLoading || s3Loading;
 
   /* submit時の処理 */
   const onSubmit = useCallback(
@@ -125,8 +133,9 @@ const CreateStaff: CustomNextPage = () => {
 
         /* フォームをリセット */
         reset();
+        /* FileInputのkeyを更新して、コンポーネントを再マウント */
+        setFileInputKey((prevKey) => prevKey + 1);
       } catch (err) {
-        /* エラーが発生した場合の通知 */
         notifications.show({
           title: "スタッフ登録失敗",
           message: `登録に失敗しました。再度お試しください。`,
@@ -143,7 +152,7 @@ const CreateStaff: CustomNextPage = () => {
   return (
     <PageContainer title="スタッフ登録" fluid>
       <Stack spacing="xl">
-        <ContentCard>
+        <ContentCard pos="relative">
           <form onSubmit={handleSubmit(onSubmit, (e) => console.log(e))}>
             <Flex direction="column" gap="xl" justify="center">
               <TextInput
@@ -233,6 +242,7 @@ const CreateStaff: CustomNextPage = () => {
                 control={control}
                 render={({ field }) => (
                   <FileInput
+                    key={fileInputKey}
                     label="画像を選択 (複数可)"
                     placeholder="ここをクリックして画像を選択してください。"
                     multiple
@@ -249,6 +259,7 @@ const CreateStaff: CustomNextPage = () => {
               </Center>
             </Flex>
           </form>
+          <LoadingOverlay visible={isLoading} overlayBlur={2} />
         </ContentCard>
       </Stack>
     </PageContainer>
