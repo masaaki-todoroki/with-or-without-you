@@ -1,9 +1,12 @@
 import React from "react";
-import { Center, Group, rem } from "@mantine/core";
+import { Center, FileInputProps, Group, rem } from "@mantine/core";
 import { Photo } from "tabler-icons-react";
-import { FileInputProps } from "@mantine/core";
 
-export const Value: React.FC<{ file: File }> = ({ file }) => {
+type Props = {
+  file: File;
+};
+
+export const FileBadge = ({ file }: Props) => {
   return (
     <Center
       inline
@@ -33,18 +36,18 @@ export const Value: React.FC<{ file: File }> = ({ file }) => {
   );
 };
 
-export const ValueComponent: FileInputProps["valueComponent"] = ({ value }) => {
+export const FileBadgeList: FileInputProps["valueComponent"] = ({ value }) => {
   if (Array.isArray(value)) {
     return (
       <Group spacing="sm" py="xs">
         {value.map((file, index) => (
-          <Value file={file} key={index} />
+          <FileBadge file={file} key={index} />
         ))}
       </Group>
     );
   }
   if (value) {
-    return <Value file={value} />;
+    return <FileBadge file={value} />;
   }
   return null;
 };

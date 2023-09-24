@@ -1,5 +1,7 @@
 import { S3 } from "aws-sdk";
 import { useMemo, useCallback } from "react";
+import { notifications } from "@mantine/notifications";
+import { ExclamationMark } from "tabler-icons-react";
 
 export const useUploadToS3 = () => {
   const s3 = useMemo(() => {
@@ -22,7 +24,15 @@ export const useUploadToS3 = () => {
       try {
         const data = await s3.upload(params).promise();
         return data.Location;
-      } catch (error) {
+      } catch (err) {
+        notifications.show({
+          title: "画像アップロード失敗",
+          message: `画像のアップロードに失敗しました。再度お試しください。`,
+          icon: <ExclamationMark />,
+          color: "red",
+          autoClose: 5000
+        });
+        console.error(err);
         return null;
       }
     },

@@ -57,14 +57,11 @@ export const CREATE_STAFF = gql`
   }
 `;
 
-export const REGISTER_STAFF_THUMBNAILS = gql`
-  mutation RegisterStaffThumbnails(
-    $objects: [staff_thumbnails_insert_input!]!
-  ) {
+export const CREATE_STAFF_THUMBNAILS = gql`
+  mutation CreateStaffThumbnails($objects: [staff_thumbnails_insert_input!]!) {
     insert_staff_thumbnails(objects: $objects) {
       returning {
-        user_id
-        # staff_id
+        staff_id
         thumbnail_url
       }
     }

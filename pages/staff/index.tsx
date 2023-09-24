@@ -1,5 +1,5 @@
 import type { CustomNextPage } from "next";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import {
   Box,
   Button,
@@ -15,6 +15,8 @@ import { ContentCard } from "components/ContentCard";
 import { getPath } from "utils/path";
 
 const StaffList: CustomNextPage = () => {
+  const router = useRouter();
+
   const staffs = [
     {
       id: 1,
@@ -111,23 +113,24 @@ const StaffList: CustomNextPage = () => {
   return (
     <PageContainer title="スタッフ" fluid>
       <Stack spacing="xl">
-        <Link href={getPath("STAFF_NEW_CREATE")} passHref legacyBehavior>
-          <Button component="a" style={{ width: "160px" }}>
-            スタッフ登録
-          </Button>
-        </Link>
+        <Button
+          style={{ width: "160px" }}
+          onClick={() => router.push(getPath("STAFF_NEW_CREATE"))}
+        >
+          スタッフ登録
+        </Button>
 
         <ContentCard title="スタッフ一覧">
           <Grid gutter="md">
             {staffs.map((staff) => (
-              <Grid.Col xs={6} sm={4} md={4} lg={3} xl={3} key={staff.id}>
+              <Grid.Col xs={6} sm={6} md={4} lg={3} xl={3} key={staff.id}>
                 <Card shadow="sm" padding="lg" radius="md" withBorder>
                   <Card.Section>
                     <Image src={staff.image} alt={staff.name} />
                   </Card.Section>
                   <Stack sx={{ marginTop: "16px" }} spacing={"xs"}>
                     <Box>
-                      <Text weight={900} size={"xl"}>
+                      <Text weight="bold" size={"xl"}>
                         {staff.name}
                       </Text>
                     </Box>
@@ -136,23 +139,17 @@ const StaffList: CustomNextPage = () => {
                       <Text>{staff.height} cm</Text>
                       <Text>{staff.bloodType} 型</Text>
                     </Group>
-                    <Link
-                      href={getPath("STAFF_DETAIL")}
-                      passHref
-                      legacyBehavior
+                    <Button
+                      variant="light"
+                      color="blue"
+                      fullWidth
+                      mt="md"
+                      radius="md"
+                      style={{ marginTop: "0" }}
+                      onClick={() => router.push(getPath("STAFF_DETAIL"))}
                     >
-                      <Button
-                        component="a"
-                        variant="light"
-                        color="blue"
-                        fullWidth
-                        mt="md"
-                        radius="md"
-                        style={{ marginTop: "0" }}
-                      >
-                        詳細
-                      </Button>
-                    </Link>
+                      詳細
+                    </Button>
                   </Stack>
                 </Card>
               </Grid.Col>

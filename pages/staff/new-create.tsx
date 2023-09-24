@@ -1,17 +1,20 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import type { CustomNextPage } from "next";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@apollo/client";
-import { CREATE_STAFF, REGISTER_STAFF_THUMBNAILS } from "queries/queries";
+import {
+  CREATE_STAFF,
+  CREATE_STAFF_THUMBNAILS
+} from "features/staff/helper/graphql";
 import {
   CreateStaffMutation,
-  RegisterStaffThumbnailsMutation
+  CreateStaffThumbnailsMutation
 } from "types/generated/graphql";
 import { useUploadToS3 } from "utils/useUploadToS3";
-import { ValueComponent } from "components/FileValueComponent";
+import { FileBadgeList } from "components/FileBadgeList";
 import {
   Button,
   Center,
@@ -25,66 +28,64 @@ import { notifications } from "@mantine/notifications";
 import { Check, ExclamationMark } from "tabler-icons-react";
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
-import { StaffTotalValidation } from "features/staff/helper/validation";
+import { StaffValidation } from "features/staff/helper/validation";
+import { convertToNumber } from "utils/convertToNumber";
 
 /* フォームの型定義 */
-type TotalStaffData = z.infer<typeof StaffTotalValidation>;
+type StaffFormValue = z.infer<typeof StaffValidation>;
 
 const CreateStaff: CustomNextPage = () => {
   /* react-hook-formの設定 */
   const {
     register,
     handleSubmit,
-    setValue,
+    control,
     reset,
     formState: { errors }
-  } = useForm<TotalStaffData>({
-    resolver: zodResolver(StaffTotalValidation)
+  } = useForm<StaffFormValue>({
+    resolver: zodResolver(StaffValidation)
   });
 
   /* Auth0のユーザーIDを取得して、react-hook-formにセット */
   const { user } = useAuth0();
-  useEffect(() => {
-    user && user.sub && setValue("userId", user.sub);
-  }, [user, setValue]);
-
-  /* mutation定義 */
-  const [createStaffBasicData] = useMutation<CreateStaffMutation>(CREATE_STAFF);
-  const [registerStaffThumbnails] =
-    useMutation<RegisterStaffThumbnailsMutation>(REGISTER_STAFF_THUMBNAILS);
-
-  /* 文字列を数値に変換する関数 */
-  const convertToNumber = (value: string) => {
-    const parsed = parseInt(value, 10);
-    return isNaN(parsed) ? -1 : parsed;
-  };
+  const userId = user?.sub;
 
   /* S3への画像アップロード関数 */
   const { uploadToS3 } = useUploadToS3();
 
+  /* mutation定義 */
+  const [createStaff] = useMutation<CreateStaffMutation>(CREATE_STAFF);
+  const [createStaffThumbnails] = useMutation<CreateStaffThumbnailsMutation>(
+    CREATE_STAFF_THUMBNAILS
+  );
+
   /* submit時の処理 */
   const onSubmit = useCallback(
-    async (totalStaffData: TotalStaffData) => {
+    async (staffFormValue: StaffFormValue) => {
       try {
+        /* staffIdをnullで初期化 */
+        let staffId: number | null = null;
+
         // 1. テキストデータをHasuraに登録
-        const result = await createStaffBasicData({
+        const result = await createStaff({
           variables: {
-            ...totalStaffData,
-            nickname_in_english: totalStaffData.nicknameInEnglish,
-            line_id: totalStaffData.lineId,
-            x_username: totalStaffData.xUsername,
-            user_id: totalStaffData.userId,
-            blood_type: totalStaffData.bloodType
+            ...staffFormValue,
+            nickname_in_english: staffFormValue.nicknameInEnglish,
+            blood_type: staffFormValue.bloodType,
+            line_id: staffFormValue.lineId,
+            x_username: staffFormValue.xUsername,
+            user_id: userId
           }
         });
 
         // 成功した場合
         if (result.data && result.data.insert_staff_one) {
-          // console.log("staff.id", result.data.insert_staff_one.id);
-          // setValue("staffId", result.data.insert_staff_one.id);
+          /* staffIdセット */
+          staffId = result.data.insert_staff_one.id;
+          /* 通知 */
           notifications.show({
             title: "スタッフ登録完了！",
-            message: `${result.data.insert_staff_one.name}さん、登録しました 🤗`,
+            message: `${result.data.insert_staff_one.name}さんを登録しました 🤗`,
             icon: <Check />,
             color: "teal",
             autoClose: 5000
@@ -93,19 +94,18 @@ const CreateStaff: CustomNextPage = () => {
 
         /* 選択された画像をS3にアップロード */
         if (
-          totalStaffData.thumbnailUrl &&
-          totalStaffData.thumbnailUrl.length > 0
+          staffFormValue.thumbnailUrl &&
+          staffFormValue.thumbnailUrl.length > 0
         ) {
           const uploadedUrls = await Promise.all(
-            totalStaffData.thumbnailUrl.map((file) => uploadToS3(file as File))
+            staffFormValue.thumbnailUrl.map((file) => uploadToS3(file as File))
           );
 
           /* アップロードされた画像のURLをHasuraに登録 */
-          const thumbnailResult = await registerStaffThumbnails({
+          const thumbnailResult = await createStaffThumbnails({
             variables: {
               objects: uploadedUrls.map((url) => ({
-                user_id: totalStaffData.userId,
-                // staff_id: totalStaffData.staffId,
+                staff_id: staffId,
                 thumbnail_url: url
               }))
             }
@@ -129,7 +129,7 @@ const CreateStaff: CustomNextPage = () => {
         /* エラーが発生した場合の通知 */
         notifications.show({
           title: "スタッフ登録失敗",
-          message: `登録に失敗しました。登録されていないメールアドレスで再度お試しください。`,
+          message: `登録に失敗しました。再度お試しください。`,
           icon: <ExclamationMark />,
           color: "red",
           autoClose: 5000
@@ -137,7 +137,7 @@ const CreateStaff: CustomNextPage = () => {
         console.error(err);
       }
     },
-    [createStaffBasicData, registerStaffThumbnails, uploadToS3, reset]
+    [createStaff, createStaffThumbnails, uploadToS3, reset, userId]
   );
 
   return (
@@ -228,15 +228,19 @@ const CreateStaff: CustomNextPage = () => {
                 {...register("xUsername")}
                 error={errors.xUsername?.message}
               />
-              <FileInput
-                label="画像を選択 (複数可)"
-                placeholder="ここをクリックして画像を選択してください。"
-                multiple
-                valueComponent={ValueComponent}
-                {...register("thumbnailUrl")}
-                onChange={(files) => {
-                  setValue("thumbnailUrl", files);
-                }}
+              <Controller
+                name="thumbnailUrl"
+                control={control}
+                render={({ field }) => (
+                  <FileInput
+                    label="画像を選択 (複数可)"
+                    placeholder="ここをクリックして画像を選択してください。"
+                    multiple
+                    clearable={true}
+                    valueComponent={FileBadgeList}
+                    {...field}
+                  />
+                )}
               />
               <Center>
                 <Button type="submit" sx={[{ width: "120px" }]}>
