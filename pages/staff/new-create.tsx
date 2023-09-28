@@ -50,7 +50,7 @@ const CreateStaff: CustomNextPage = () => {
   /* Auth0のユーザーIDを取得して、react-hook-formにセット */
   const { user } = useAuth0();
   const userId = user?.sub;
-
+  console.log("userId", userId);
   /* S3への画像アップロード関数 */
   const { uploadToS3, s3Loading } = useUploadToS3();
 
@@ -233,7 +233,7 @@ const CreateStaff: CustomNextPage = () => {
                 error={errors.lineId?.message}
               />
               <TextInput
-                label="X ユーザー名"
+                label="X(twitter) ユーザー名"
                 {...register("xUsername")}
                 error={errors.xUsername?.message}
               />

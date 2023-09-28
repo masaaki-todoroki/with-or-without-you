@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client"; // apolloClientでHasuraからデータを取得するためのHooks
-import { GET_USERS } from "queries/queries"; // ユーザー情報GETするクエリ
+import { GET_USERS } from "features/staff/helper/graphql"; // ユーザー情報GETするクエリ
 import { GetUsersQuery } from "types/generated/graphql"; // 自動生成された型
 
 const FetchMain = () => {

@@ -83,6 +83,33 @@ export const GET_STAFF = gql`
       line_id
       x_username
       user_id
+      id
+      staff_thumbnails {
+        thumbnail_url
+      }
+    }
+  }
+`;
+
+export const GET_STAFF_BY_NICKNAME_IN_ENGLISH = gql`
+  query GetStaffByNicknameInEnglish($nickname_in_english: String!) {
+    staff(where: { nickname_in_english: { _eq: $nickname_in_english } }) {
+      email
+      name
+      nickname
+      nickname_in_english
+      age
+      height
+      blood_type
+      comment
+      mobile
+      line_id
+      x_username
+      user_id
+      id
+      staff_thumbnails {
+        thumbnail_url
+      }
     }
   }
 `;
