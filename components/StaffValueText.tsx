@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import { Text } from "@mantine/core";
 
-interface Props {
+type Props = {
   children: ReactNode;
-}
+};
 
 const StaffValueText = ({ children, ...props }: Props) => {
   return (

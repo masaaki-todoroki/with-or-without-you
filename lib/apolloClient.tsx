@@ -1,4 +1,4 @@
-import React from "react";
+import { PropsWithChildren } from "react";
 import {
   ApolloProvider,
   ApolloClient,
@@ -10,9 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { setContext } from "@apollo/client/link/context";
 import "cross-fetch/polyfill";
 
-const AuthorizedApolloProvider = ({
-  children
-}: React.PropsWithChildren<{}>) => {
+const AuthorizedApolloProvider = ({ children }: PropsWithChildren<{}>) => {
   const { getAccessTokenSilently } = useAuth0();
 
   const authLink = setContext(async (_, { headers, ...rest }) => {

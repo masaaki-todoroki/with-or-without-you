@@ -1,4 +1,3 @@
-import React from "react";
 import { Center, FileInputProps, Group, rem } from "@mantine/core";
 import { Photo } from "tabler-icons-react";
 

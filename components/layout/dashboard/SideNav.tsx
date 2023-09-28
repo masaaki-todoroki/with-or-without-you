@@ -1,4 +1,3 @@
-import { FC } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDisclosure } from "@mantine/hooks";
@@ -26,7 +25,11 @@ const MENUS = [
   { href: getPath("SETTINGS"), label: "設定", Icon: Settings }
 ];
 
-export const SideNav: FC<{ className?: string }> = ({ className }) => {
+type Props = {
+  className?: string;
+};
+
+export const SideNav = ({ className }: Props) => {
   const [collapsed, handlers] = useDisclosure(false);
   const { classes, cx } = useStyles({ collapsed });
 

@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { ReactNode } from "react";
 import { AppShell, Box, MediaQuery } from "@mantine/core";
 import { LayoutErrorBoundary } from "components/layout/LayoutErrorBoundary";
 import { SideNav } from "components/layout/dashboard/SideNav";
@@ -8,7 +8,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const Dashboard: FC<Props> = ({ children }) => (
+export const Dashboard = ({ children }: Props) => (
   <AppShell
     padding="md"
     styles={(theme) => ({

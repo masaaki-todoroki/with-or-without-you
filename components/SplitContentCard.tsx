@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { ReactNode } from "react";
 import { Box, Grid, Paper, Title, Sx } from "@mantine/core";
 
 type Props = {
@@ -9,13 +9,13 @@ type Props = {
   splitRatio: number;
 };
 
-export const SplitContentCard: FC<Props> = ({
+export const SplitContentCard = ({
   children,
   title,
   outerTitle,
   sx,
   splitRatio
-}) => (
+}: Props) => (
   <Grid.Col xs={splitRatio}>
     <Box sx={sx}>
       {title && outerTitle && (

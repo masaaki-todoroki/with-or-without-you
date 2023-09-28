@@ -1,4 +1,3 @@
-import React from "react";
 import Head from "next/head";
 import { Auth0Provider } from "@auth0/auth0-react";
 import AuthorizedApolloProvider from "lib/apolloClient";
