@@ -68,8 +68,8 @@ export const CREATE_STAFF_THUMBNAILS = gql`
   }
 `;
 
-export const GET_STAFF = gql`
-  query GetStaff {
+export const GET_STAFF_LIST = gql`
+  query GetStaffList {
     staff {
       email
       name
@@ -91,9 +91,9 @@ export const GET_STAFF = gql`
   }
 `;
 
-export const GET_STAFF_BY_NICKNAME_IN_ENGLISH = gql`
-  query GetStaffByNicknameInEnglish($nickname_in_english: String!) {
-    staff(where: { nickname_in_english: { _eq: $nickname_in_english } }) {
+export const GET_STAFF_BY_ID = gql`
+  query GetStaffById($id: Int!) {
+    staff_by_pk(id: $id) {
       email
       name
       nickname

@@ -2,8 +2,7 @@ const PATH = {
   Authentication: "/",
   HOME: "/home",
   STAFF: "/staff",
-  STAFF_DETAIL: (nicknameInEnglish?: string) =>
-    `/staff/${nicknameInEnglish ? nicknameInEnglish : null}`,
+  STAFF_DETAIL: (id?: number) => `/staff/${id ? id.toString() : null}`,
   STAFF_NEW_CREATE: "/staff/new-create",
   SETTINGS: "/settings"
 } as const;

@@ -6,17 +6,10 @@ type Props = {
   title?: string;
   outerTitle?: boolean;
   sx?: Sx;
-  pos?: "relative";
 };
 
-export const ContentCard = ({
-  children,
-  title,
-  outerTitle,
-  sx,
-  pos
-}: Props) => (
-  <Box sx={sx} pos={pos}>
+export const ContentCard = ({ children, title, outerTitle, sx }: Props) => (
+  <Box sx={sx}>
     {title && outerTitle && (
       <Title order={2} mb="sm">
         {title}

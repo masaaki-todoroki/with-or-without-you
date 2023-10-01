@@ -8,7 +8,7 @@ type Props = {
 const StaffValueText = ({ children, ...props }: Props) => {
   return (
     <Text
-      style={{
+      sx={{
         background: "#f7f8f9",
         padding: "4px 8px",
         borderRadius: "4px",

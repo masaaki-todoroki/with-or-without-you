@@ -1,4 +1,4 @@
-import { Center, FileInputProps, Group, rem } from "@mantine/core";
+import { Center, FileInputProps, Group, Text } from "@mantine/core";
 import { Photo } from "tabler-icons-react";
 
 type Props = {
@@ -15,22 +15,23 @@ export const FileBadge = ({ file }: Props) => {
             ? theme.colors.dark[7]
             : theme.colors.gray[1],
         fontSize: theme.fontSizes.xs,
-        padding: `${rem(3)} ${rem(7)}`,
+        padding: "3px 7px",
         borderRadius: theme.radius.sm
       })}
     >
-      <Photo size={rem(14)} style={{ marginRight: rem(5) }} />
-      <span
-        style={{
+      <Photo size="14px" style={{ marginRight: "5px" }} />
+      <Text
+        component="span"
+        sx={{
           whiteSpace: "nowrap",
           textOverflow: "ellipsis",
           overflow: "hidden",
-          maxWidth: rem(200),
+          maxWidth: "200px",
           display: "inline-block"
         }}
       >
         {file.name}
-      </span>
+      </Text>
     </Center>
   );
 };

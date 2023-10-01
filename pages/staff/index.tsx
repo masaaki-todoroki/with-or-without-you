@@ -1,8 +1,8 @@
 import type { CustomNextPage } from "next";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
-import { GET_STAFF } from "features/staff/helper/graphql";
-import { GetStaffQuery } from "types/generated/graphql";
+import { GET_STAFF_LIST } from "features/staff/helper/graphql";
+import { GetStaffListQuery } from "types/generated/graphql";
 import {
   Box,
   Button,
@@ -23,7 +23,18 @@ import { getPath } from "utils/path";
 const StaffList: CustomNextPage = () => {
   const router = useRouter();
 
-  const { data, loading, error } = useQuery<GetStaffQuery>(GET_STAFF);
+  const {
+    data: staffListData,
+    loading,
+    error
+  } = useQuery<GetStaffListQuery>(GET_STAFF_LIST);
+
+  const staffList = staffListData?.staff;
+
+  const noStaffImage =
+    "https://images.unsplash.com/photo-1515138692129-197a2c608cfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=400&q=80";
+
+  if (!staffListData) return null;
 
   if (error) {
     notifications.show({
@@ -35,14 +46,12 @@ const StaffList: CustomNextPage = () => {
     });
     console.error(error.message);
   }
-  const noStaffImage =
-    "https://images.unsplash.com/photo-1515138692129-197a2c608cfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=400&q=80";
 
   return (
     <PageContainer title="スタッフ" fluid>
       <Stack spacing="xl">
         <Button
-          style={{ width: "160px" }}
+          w={160}
           onClick={() => router.push(getPath("STAFF_NEW_CREATE"))}
         >
           スタッフ登録
@@ -50,8 +59,8 @@ const StaffList: CustomNextPage = () => {
 
         <ContentCard title="スタッフ一覧">
           <Grid gutter="md">
-            {data &&
-              data.staff.map((staff) => {
+            {staffList &&
+              staffList.map((staff) => {
                 const imageSrc =
                   staff && staff.staff_thumbnails[0]
                     ? staff.staff_thumbnails[0].thumbnail_url
@@ -64,13 +73,13 @@ const StaffList: CustomNextPage = () => {
                         <Image
                           src={imageSrc}
                           alt={staff.name}
-                          style={
+                          sx={
                             imageSrc === noStaffImage ? { opacity: "0.5" } : {}
                           }
                         />
                         {imageSrc === noStaffImage && (
                           <Box
-                            style={{
+                            sx={{
                               position: "absolute",
                               top: "50%",
                               left: "50%",
@@ -87,7 +96,7 @@ const StaffList: CustomNextPage = () => {
                           </Box>
                         )}
                       </Card.Section>
-                      <Stack sx={{ marginTop: "16px" }} spacing={"xs"}>
+                      <Stack mt={16} spacing="xs">
                         <Box>
                           <Text weight="bold" size="xl">
                             {staff.name}
@@ -102,12 +111,10 @@ const StaffList: CustomNextPage = () => {
                           variant="light"
                           color="blue"
                           fullWidth
-                          mt="md"
                           radius="md"
-                          style={{ marginTop: "0" }}
                           onClick={() =>
                             router.push(
-                              getPath("STAFF_DETAIL", staff.nickname_in_english)
+                              getPath("STAFF_DETAIL", staff.id.toString())
                             )
                           }
                         >

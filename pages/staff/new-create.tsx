@@ -1,5 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import type { CustomNextPage } from "next";
+import { useRouter } from "next/router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +14,7 @@ import {
   CreateStaffMutation,
   CreateStaffThumbnailsMutation
 } from "types/generated/graphql";
-import { useUploadToS3 } from "utils/useUploadToS3";
+import { useUploadToS3 } from "hooks/useUploadToS3";
 import { FileBadgeList } from "components/FileBadgeList";
 import {
   Button,
@@ -31,50 +32,40 @@ import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
 import { StaffValidation } from "features/staff/helper/validation";
 import { convertToNumber } from "utils/convertToNumber";
+import { getPath } from "utils/path";
 
-/* フォームの型定義 */
 type StaffFormValue = z.infer<typeof StaffValidation>;
 
 const CreateStaff: CustomNextPage = () => {
-  /* react-hook-formの設定 */
   const {
     register,
     handleSubmit,
     control,
-    reset,
     formState: { errors, isSubmitting }
   } = useForm<StaffFormValue>({
     resolver: zodResolver(StaffValidation)
   });
 
-  /* Auth0のユーザーIDを取得して、react-hook-formにセット */
   const { user } = useAuth0();
   const userId = user?.sub;
 
-  /* S3への画像アップロード関数 */
-  const { uploadToS3, s3Loading } = useUploadToS3();
+  const { uploadToS3, loading: s3Loading } = useUploadToS3();
 
-  /* FileInputのリセットをトリガーするための状態 */
-  const [fileInputKey, setFileInputKey] = useState<number>(0);
+  const router = useRouter();
 
-  /* GraphQLのミューテーションを定義 */
   const [createStaff, { loading: createStaffLoading }] =
     useMutation<CreateStaffMutation>(CREATE_STAFF);
   const [createStaffThumbnails, { loading: createStaffThumbnailsLoading }] =
     useMutation<CreateStaffThumbnailsMutation>(CREATE_STAFF_THUMBNAILS);
 
-  /* ローディング状態の定義 */
   const isMutationLoading = createStaffLoading || createStaffThumbnailsLoading;
   const isLoading = isSubmitting || isMutationLoading || s3Loading;
 
-  /* submit時の処理 */
   const onSubmit = useCallback(
     async (staffFormValue: StaffFormValue) => {
       try {
-        /* staffIdをnullで初期化 */
         let staffId: number | null = null;
 
-        // 1. テキストデータをHasuraに登録
         const result = await createStaff({
           variables: {
             ...staffFormValue,
@@ -86,11 +77,8 @@ const CreateStaff: CustomNextPage = () => {
           }
         });
 
-        // 成功した場合
         if (result.data && result.data.insert_staff_one) {
-          /* staffIdセット */
           staffId = result.data.insert_staff_one.id;
-          /* 通知 */
           notifications.show({
             title: "スタッフ登録完了！",
             message: `${result.data.insert_staff_one.name}さんを登録しました 🤗`,
@@ -100,7 +88,6 @@ const CreateStaff: CustomNextPage = () => {
           });
         }
 
-        /* 選択された画像をS3にアップロード */
         if (
           staffFormValue.thumbnailUrl &&
           staffFormValue.thumbnailUrl.length > 0
@@ -109,7 +96,6 @@ const CreateStaff: CustomNextPage = () => {
             staffFormValue.thumbnailUrl.map((file) => uploadToS3(file as File))
           );
 
-          /* アップロードされた画像のURLをHasuraに登録 */
           const thumbnailResult = await createStaffThumbnails({
             variables: {
               objects: uploadedUrls.map((url) => ({
@@ -119,7 +105,6 @@ const CreateStaff: CustomNextPage = () => {
             }
           });
 
-          /* 成功した場合の通知 */
           if (thumbnailResult.data) {
             notifications.show({
               title: "画像アップロード完了！",
@@ -130,11 +115,7 @@ const CreateStaff: CustomNextPage = () => {
             });
           }
         }
-
-        /* フォームをリセット */
-        reset();
-        /* FileInputのkeyを更新して、コンポーネントを再マウント */
-        setFileInputKey((prevKey) => prevKey + 1);
+        router.push(getPath("STAFF_DETAIL", staffFormValue.nicknameInEnglish));
       } catch (err) {
         notifications.show({
           title: "スタッフ登録失敗",
@@ -146,14 +127,14 @@ const CreateStaff: CustomNextPage = () => {
         console.error(err);
       }
     },
-    [createStaff, createStaffThumbnails, uploadToS3, reset, userId]
+    [createStaff, createStaffThumbnails, uploadToS3, userId, router]
   );
 
   return (
     <PageContainer title="スタッフ登録" fluid>
       <Stack spacing="xl">
-        <ContentCard pos="relative">
-          <form onSubmit={handleSubmit(onSubmit, (e) => console.log(e))}>
+        <ContentCard sx={{ position: "relative" }}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Flex direction="column" gap="xl" justify="center">
               <TextInput
                 label="メールアドレス"
@@ -233,7 +214,7 @@ const CreateStaff: CustomNextPage = () => {
                 error={errors.lineId?.message}
               />
               <TextInput
-                label="X(twitter) ユーザー名"
+                label="X(Twitter) ユーザー名"
                 {...register("xUsername")}
                 error={errors.xUsername?.message}
               />
@@ -242,7 +223,6 @@ const CreateStaff: CustomNextPage = () => {
                 control={control}
                 render={({ field }) => (
                   <FileInput
-                    key={fileInputKey}
                     label="画像を選択 (複数可)"
                     placeholder="ここをクリックして画像を選択してください。"
                     multiple
@@ -253,7 +233,7 @@ const CreateStaff: CustomNextPage = () => {
                 )}
               />
               <Center>
-                <Button type="submit" sx={[{ width: "120px" }]}>
+                <Button type="submit" w={160}>
                   登録
                 </Button>
               </Center>
