@@ -15,11 +15,10 @@ import {
   SimpleGrid,
   Stack
 } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { ExclamationMark } from "tabler-icons-react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import StaffDataContainer from "features/staff/component/StaffDataContainer";
+import StaffDetailTextContainer from "features/staff/component/StaffDetailTextContainer";
+import ErrorComponent from "components/ErrorComponent";
 
 const StaffDetail: CustomNextPage = () => {
   const router = useRouter();
@@ -35,29 +34,27 @@ const StaffDetail: CustomNextPage = () => {
   });
 
   const staff = staffData?.staff_by_pk;
-
+  const noStaffImage = "/staff/noStaffImage.png";
   const thumbnail =
     staff && staff.staff_thumbnails && staff.staff_thumbnails[0]
       ? staff.staff_thumbnails[0].thumbnail_url
-      : undefined;
-
+      : noStaffImage;
   const [selectedImageUrl, setSelectedImageUrl] = useState(thumbnail);
-
   useEffect(() => {
     setSelectedImageUrl(thumbnail);
   }, [thumbnail]);
 
-  if (!staffData) return null;
+  if (loading) {
+    return <LoadingOverlay visible={loading} overlayBlur={2} />;
+  }
 
   if (error) {
-    notifications.show({
-      title: "情報取得失敗",
-      message: `情報の取得に失敗しました。再度お試しください。`,
-      icon: <ExclamationMark />,
-      color: "red",
-      autoClose: 5000
-    });
     console.error(error.message);
+    return <ErrorComponent message="スタッフデータの取得に失敗しました" />;
+  }
+
+  if (!staffData) {
+    return <ErrorComponent message="スタッフデータが見つかりませんでした" />;
   }
 
   return (
@@ -69,7 +66,29 @@ const StaffDetail: CustomNextPage = () => {
         <SplitContentCard title="スタッフデータ" splitRatio={4}>
           <Card>
             <Card.Section mt="sm">
-              <Image src={selectedImageUrl} alt={staff?.name || ""} />
+              <Image
+                src={selectedImageUrl}
+                alt={staff?.name || ""}
+                opacity={selectedImageUrl === noStaffImage ? 0.7 : 1}
+              />
+              {selectedImageUrl === noStaffImage && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "75%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "1.5rem",
+                    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)"
+                  }}
+                >
+                  Coming
+                  <br />
+                  Soon ...
+                </Box>
+              )}
             </Card.Section>
             <Card.Section inheritPadding mt="sm" pb="md">
               <SimpleGrid cols={3}>
@@ -93,54 +112,39 @@ const StaffDetail: CustomNextPage = () => {
           </Card>
           {staff && (
             <Stack>
-              <Box>
-                <StaffDataContainer
-                  title="ニックネーム"
-                  staffData={staff.nickname}
-                />
-              </Box>
-              <Box>
-                <StaffDataContainer title="年齢" staffData={staff.age} />
-              </Box>
-              <Box>
-                <StaffDataContainer title="身長" staffData={staff.age} />
-              </Box>
-              <Box>
-                <StaffDataContainer
-                  title="血液型"
-                  staffData={staff.blood_type}
-                />
-              </Box>
-              <Box>
-                <StaffDataContainer
-                  title="コメント"
-                  staffData={staff.comment}
-                />
-              </Box>
-              <Box>
-                <StaffDataContainer title="本名" staffData={staff.name} />
-              </Box>
-              <Box>
-                <StaffDataContainer
-                  title="メールアドレス"
-                  staffData={staff.email}
-                />
-              </Box>
-              <Box>
-                <StaffDataContainer title="電話番号" staffData={staff.mobile} />
-              </Box>
-              <Box>
-                <StaffDataContainer title="LINE ID" staffData={staff.line_id} />
-              </Box>
-              <Box>
-                <StaffDataContainer
-                  title="X(Twitter) ユーザー名"
-                  staffData={staff.x_username}
-                />
-              </Box>
+              <StaffDetailTextContainer
+                title="ニックネーム"
+                staffDetail={staff.nickname}
+              />
+              <StaffDetailTextContainer title="年齢" staffDetail={staff.age} />
+              <StaffDetailTextContainer title="身長" staffDetail={staff.age} />
+              <StaffDetailTextContainer
+                title="血液型"
+                staffDetail={staff.blood_type}
+              />
+              <StaffDetailTextContainer
+                title="コメント"
+                staffDetail={staff.comment || undefined}
+              />
+              <StaffDetailTextContainer title="本名" staffDetail={staff.name} />
+              <StaffDetailTextContainer
+                title="メールアドレス"
+                staffDetail={staff.email}
+              />
+              <StaffDetailTextContainer
+                title="電話番号"
+                staffDetail={staff.mobile}
+              />
+              <StaffDetailTextContainer
+                title="LINE ID"
+                staffDetail={staff.line_id || undefined}
+              />
+              <StaffDetailTextContainer
+                title="X(Twitter) ユーザー名"
+                staffDetail={staff.x_username || undefined}
+              />
             </Stack>
           )}
-          <LoadingOverlay visible={loading} overlayBlur={2} />
         </SplitContentCard>
       </Grid>
     </PageContainer>

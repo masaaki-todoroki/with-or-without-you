@@ -15,11 +15,11 @@ export const FileBadge = ({ file }: Props) => {
             ? theme.colors.dark[7]
             : theme.colors.gray[1],
         fontSize: theme.fontSizes.xs,
-        padding: "3px 7px",
+        padding: "4px 8px",
         borderRadius: theme.radius.sm
       })}
     >
-      <Photo size="14px" style={{ marginRight: "5px" }} />
+      <Photo size="14px" style={{ marginRight: "4px" }} />
       <Text
         component="span"
         sx={{

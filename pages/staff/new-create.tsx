@@ -58,14 +58,9 @@ const CreateStaff: CustomNextPage = () => {
   const [createStaffThumbnails, { loading: createStaffThumbnailsLoading }] =
     useMutation<CreateStaffThumbnailsMutation>(CREATE_STAFF_THUMBNAILS);
 
-  const isMutationLoading = createStaffLoading || createStaffThumbnailsLoading;
-  const isLoading = isSubmitting || isMutationLoading || s3Loading;
-
   const onSubmit = useCallback(
     async (staffFormValue: StaffFormValue) => {
       try {
-        let staffId: number | null = null;
-
         const result = await createStaff({
           variables: {
             ...staffFormValue,
@@ -78,7 +73,6 @@ const CreateStaff: CustomNextPage = () => {
         });
 
         if (result.data && result.data.insert_staff_one) {
-          staffId = result.data.insert_staff_one.id;
           notifications.show({
             title: "スタッフ登録完了！",
             message: `${result.data.insert_staff_one.name}さんを登録しました 🤗`,
@@ -99,7 +93,7 @@ const CreateStaff: CustomNextPage = () => {
           const thumbnailResult = await createStaffThumbnails({
             variables: {
               objects: uploadedUrls.map((url) => ({
-                staff_id: staffId,
+                staff_id: result.data?.insert_staff_one?.id,
                 thumbnail_url: url
               }))
             }
@@ -115,7 +109,10 @@ const CreateStaff: CustomNextPage = () => {
             });
           }
         }
-        router.push(getPath("STAFF_DETAIL", staffFormValue.nicknameInEnglish));
+        const staffId = result.data?.insert_staff_one?.id;
+        if (staffId) {
+          router.push(getPath("STAFF_DETAIL", staffId.toString()));
+        }
       } catch (err) {
         notifications.show({
           title: "スタッフ登録失敗",
@@ -129,6 +126,12 @@ const CreateStaff: CustomNextPage = () => {
     },
     [createStaff, createStaffThumbnails, uploadToS3, userId, router]
   );
+
+  const isMutationLoading = createStaffLoading || createStaffThumbnailsLoading;
+  const isLoading = isSubmitting || isMutationLoading || s3Loading;
+  if (isLoading) {
+    return <LoadingOverlay visible={isLoading} overlayBlur={2} />;
+  }
 
   return (
     <PageContainer title="スタッフ登録" fluid>
@@ -239,7 +242,6 @@ const CreateStaff: CustomNextPage = () => {
               </Center>
             </Flex>
           </form>
-          <LoadingOverlay visible={isLoading} overlayBlur={2} />
         </ContentCard>
       </Stack>
     </PageContainer>

@@ -14,11 +14,10 @@ import {
   Text,
   Stack
 } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { ExclamationMark } from "tabler-icons-react";
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
 import { getPath } from "utils/path";
+import ErrorComponent from "components/ErrorComponent";
 
 const StaffList: CustomNextPage = () => {
   const router = useRouter();
@@ -30,21 +29,19 @@ const StaffList: CustomNextPage = () => {
   } = useQuery<GetStaffListQuery>(GET_STAFF_LIST);
 
   const staffList = staffListData?.staff;
+  const noStaffImage = "/staff/noStaffImage.png";
 
-  const noStaffImage =
-    "https://images.unsplash.com/photo-1515138692129-197a2c608cfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=400&q=80";
-
-  if (!staffListData) return null;
+  if (loading) {
+    return <LoadingOverlay visible={loading} overlayBlur={2} />;
+  }
 
   if (error) {
-    notifications.show({
-      title: "情報取得失敗",
-      message: `情報の取得に失敗しました。再度お試しください。`,
-      icon: <ExclamationMark />,
-      color: "red",
-      autoClose: 5000
-    });
     console.error(error.message);
+    return <ErrorComponent message="スタッフデータの取得に失敗しました" />;
+  }
+
+  if (!staffListData) {
+    return <ErrorComponent message="スタッフデータが見つかりませんでした" />;
   }
 
   return (
@@ -73,15 +70,13 @@ const StaffList: CustomNextPage = () => {
                         <Image
                           src={imageSrc}
                           alt={staff.name}
-                          sx={
-                            imageSrc === noStaffImage ? { opacity: "0.5" } : {}
-                          }
+                          opacity={imageSrc === noStaffImage ? 0.7 : 1}
                         />
                         {imageSrc === noStaffImage && (
                           <Box
                             sx={{
                               position: "absolute",
-                              top: "50%",
+                              top: "55%",
                               left: "50%",
                               transform: "translate(-50%, -50%)",
                               color: "white",
@@ -128,7 +123,6 @@ const StaffList: CustomNextPage = () => {
           </Grid>
         </ContentCard>
       </Stack>
-      <LoadingOverlay visible={loading} overlayBlur={2} />
     </PageContainer>
   );
 };

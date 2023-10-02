@@ -2,12 +2,12 @@ import { Box, Text, Title } from "@mantine/core";
 
 type Props = {
   title: string;
-  staffData?: string | number | undefined | null;
+  staffDetail?: string | number;
 };
 
-const StaffDataContainer = ({ title, staffData }: Props) => {
+const StaffDetailTextContainer = ({ title, staffDetail }: Props) => {
   return (
-    <>
+    <Box>
       <Title order={6}>{title}</Title>
       <Box
         sx={{
@@ -17,10 +17,10 @@ const StaffDataContainer = ({ title, staffData }: Props) => {
           border: "1px solid #f1f3f5"
         }}
       >
-        {staffData && <Text>{staffData}</Text>}
+        {staffDetail && <Text>{staffDetail}</Text>}
       </Box>
-    </>
+    </Box>
   );
 };
 
-export default StaffDataContainer;
+export default StaffDetailTextContainer;
