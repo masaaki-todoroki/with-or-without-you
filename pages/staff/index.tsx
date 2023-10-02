@@ -17,7 +17,7 @@ import {
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
 import { getPath } from "utils/path";
-import ErrorComponent from "components/ErrorComponent";
+import ErrorMessage from "components/ErrorMessage";
 
 const StaffList: CustomNextPage = () => {
   const router = useRouter();
@@ -37,11 +37,11 @@ const StaffList: CustomNextPage = () => {
 
   if (error) {
     console.error(error.message);
-    return <ErrorComponent message="スタッフデータの取得に失敗しました" />;
+    return <ErrorMessage message="スタッフデータの取得に失敗しました" />;
   }
 
   if (!staffListData) {
-    return <ErrorComponent message="スタッフデータが見つかりませんでした" />;
+    return <ErrorMessage message="スタッフデータが見つかりませんでした" />;
   }
 
   return (

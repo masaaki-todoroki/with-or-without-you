@@ -72,10 +72,12 @@ const CreateStaff: CustomNextPage = () => {
           }
         });
 
-        if (result.data && result.data.insert_staff_one) {
+        const newStaff = result.data?.insert_staff_one;
+
+        if (newStaff) {
           notifications.show({
             title: "スタッフ登録完了！",
-            message: `${result.data.insert_staff_one.name}さんを登録しました 🤗`,
+            message: `${newStaff.name}さんを登録しました 🤗`,
             icon: <Check />,
             color: "teal",
             autoClose: 5000
@@ -93,7 +95,7 @@ const CreateStaff: CustomNextPage = () => {
           const thumbnailResult = await createStaffThumbnails({
             variables: {
               objects: uploadedUrls.map((url) => ({
-                staff_id: result.data?.insert_staff_one?.id,
+                staff_id: newStaff?.id,
                 thumbnail_url: url
               }))
             }
@@ -109,7 +111,7 @@ const CreateStaff: CustomNextPage = () => {
             });
           }
         }
-        const staffId = result.data?.insert_staff_one?.id;
+        const staffId = newStaff?.id;
         if (staffId) {
           router.push(getPath("STAFF_DETAIL", staffId.toString()));
         }

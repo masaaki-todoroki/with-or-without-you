@@ -18,7 +18,7 @@ import {
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import StaffDetailTextContainer from "features/staff/component/StaffDetailTextContainer";
-import ErrorComponent from "components/ErrorComponent";
+import ErrorMessage from "components/ErrorMessage";
 
 const StaffDetail: CustomNextPage = () => {
   const router = useRouter();
@@ -50,11 +50,11 @@ const StaffDetail: CustomNextPage = () => {
 
   if (error) {
     console.error(error.message);
-    return <ErrorComponent message="スタッフデータの取得に失敗しました" />;
+    return <ErrorMessage message="スタッフデータの取得に失敗しました" />;
   }
 
   if (!staffData) {
-    return <ErrorComponent message="スタッフデータが見つかりませんでした" />;
+    return <ErrorMessage message="スタッフデータが見つかりませんでした" />;
   }
 
   return (

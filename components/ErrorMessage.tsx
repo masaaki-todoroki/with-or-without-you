@@ -5,7 +5,7 @@ type Props = {
   message?: string;
 };
 
-const ErrorComponent = ({ message }: Props) => {
+const ErrorMessage = ({ message }: Props) => {
   return (
     <Container size="xs" mt="4px">
       <Paper p="md" sx={{ textAlign: "center" }}>
@@ -18,4 +18,4 @@ const ErrorComponent = ({ message }: Props) => {
   );
 };
 
-export default ErrorComponent;
+export default ErrorMessage;
