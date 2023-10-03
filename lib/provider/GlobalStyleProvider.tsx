@@ -1,9 +1,11 @@
+import type { ReactNode } from "react";
 import { Global } from "@mantine/core";
-import type { FC, ReactNode } from "react";
 
-export const GlobalStyleProvider: FC<{ children: ReactNode }> = ({
-  children
-}) => (
+type Props = {
+  children: ReactNode;
+};
+
+export const GlobalStyleProvider = ({ children }: Props) => (
   <>
     <Global
       styles={{

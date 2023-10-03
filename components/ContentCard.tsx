@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { ReactNode } from "react";
 import { Box, Paper, Title, Sx } from "@mantine/core";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   sx?: Sx;
 };
 
-export const ContentCard: FC<Props> = ({ children, title, outerTitle, sx }) => (
+export const ContentCard = ({ children, title, outerTitle, sx }: Props) => (
   <Box sx={sx}>
     {title && outerTitle && (
       <Title order={2} mb="sm">

@@ -2,20 +2,20 @@ const PATH = {
   Authentication: "/",
   HOME: "/home",
   STAFF: "/staff",
+  STAFF_DETAIL: (id?: number) => `/staff/${id ? id.toString() : null}`,
   STAFF_NEW_CREATE: "/staff/new-create",
   SETTINGS: "/settings"
 } as const;
 
 export const getPath = (pathKey: keyof typeof PATH, ...args: string[]) => {
-  const val = PATH[pathKey];
-
-  if (!args) {
-    return val;
-  }
+  const val =
+    typeof PATH[pathKey] === "function"
+      ? (PATH[pathKey] as Function)(...args)
+      : PATH[pathKey];
 
   const dirs = val.slice(1).split("/");
 
-  const newPath = dirs.map((dir) => {
+  const newPath = dirs.map((dir: string) => {
     if (dir.startsWith("[")) {
       const replaceDir = args[0];
       args.shift();

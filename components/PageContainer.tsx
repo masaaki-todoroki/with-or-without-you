@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { ReactNode } from "react";
 import Link from "next/link";
 import {
   Anchor,
@@ -15,7 +15,7 @@ type Props = {
   menus?: { label: string; href: string }[];
 } & Pick<ContainerProps, "fluid">;
 
-export const PageContainer: FC<Props> = ({ children, title, menus, fluid }) => (
+export const PageContainer = ({ children, title, menus, fluid }: Props) => (
   <Container px={0} fluid={fluid}>
     {menus && menus.length > 0 && (
       <Breadcrumbs>
