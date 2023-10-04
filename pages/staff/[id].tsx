@@ -1,22 +1,33 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { CustomNextPage } from "next";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { useForm, Controller } from "react-hook-form";
 import { GET_STAFF_BY_ID } from "features/staff/helper/graphql";
 import { PageContainer } from "components/PageContainer";
 import { SplitContentCard } from "components/SplitContentCard";
 import { GetStaffByIdQuery } from "types/generated/graphql";
 import {
   Box,
+  Button,
   Card,
+  Dialog,
   Grid,
+  Group,
   Image,
   LoadingOverlay,
   SimpleGrid,
-  Stack
+  Stack,
+  Text,
+  TextInput
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
+import { format } from "date-fns";
+import { ja } from "date-fns/locale";
 import StaffDetailTextContainer from "features/staff/component/StaffDetailTextContainer";
 import ErrorMessage from "components/ErrorMessage";
 
@@ -44,6 +55,39 @@ const StaffDetail: CustomNextPage = () => {
     setSelectedImageUrl(thumbnail);
   }, [thumbnail]);
 
+  const [selectedDate, setSelectedDate] = useState("");
+  const [opened, handlers] = useDisclosure(false);
+  const handleDateClick = useCallback(
+    (arg: DateClickArg) => {
+      const date = new Date(arg.dateStr);
+      const formattedDate = format(date, "yyyy.MM.dd（E）", { locale: ja });
+      setSelectedDate(formattedDate);
+      handlers.toggle();
+    },
+    [handlers]
+  );
+
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      schedule: ""
+    }
+  });
+
+  const inputScheduleRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (opened && inputScheduleRef.current !== null) {
+      inputScheduleRef.current.focus();
+    } else {
+      reset();
+    }
+  }, [opened, reset]);
+
+  const onSubmit = (scheduleFormValue: { schedule: string }) => {
+    console.log(scheduleFormValue.schedule);
+    handlers.close();
+    reset();
+  };
+
   if (loading) {
     return <LoadingOverlay visible={loading} overlayBlur={2} />;
   }
@@ -61,7 +105,45 @@ const StaffDetail: CustomNextPage = () => {
     <PageContainer title="スタッフ" fluid>
       <Grid>
         <SplitContentCard title="スケジュール" splitRatio={8}>
-          <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay"
+            }}
+            dateClick={handleDateClick}
+          />
+          <Dialog
+            opened={opened}
+            withCloseButton
+            onClose={handlers.close}
+            size="lg"
+            radius="md"
+            position={{ top: 20, left: 20 }}
+          >
+            <Text size="sm" mb="xs" fw={500}>
+              {selectedDate}
+            </Text>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Group align="flex-end">
+                <Controller
+                  name="schedule"
+                  control={control}
+                  render={({ field }) => (
+                    <TextInput
+                      {...field}
+                      placeholder="予定を入力"
+                      style={{ flex: 1 }}
+                      ref={inputScheduleRef}
+                    />
+                  )}
+                />
+                <Button type="submit">登録</Button>
+              </Group>
+            </form>
+          </Dialog>
         </SplitContentCard>
         <SplitContentCard title="スタッフデータ" splitRatio={4}>
           <Card>

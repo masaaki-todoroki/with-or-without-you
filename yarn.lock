@@ -508,6 +508,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.21.0":
+  version "7.23.1"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.1.tgz#72741dc4d413338a91dcb044a86f3c0bc402646d"
+  integrity sha512-hC2v6p8ZSI/W0HUzh3V8C5g+NwSKzKPtJwSpTjwl0o297GP9+ZLQSkdvHz46CM3LqyoXxq+5G9komY+eSqSO0g==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
   version "7.22.15"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.15.tgz#38f46494ccf6cf020bd4eed7124b425e83e523b8"
@@ -714,15 +721,27 @@
   dependencies:
     preact "~10.12.1"
 
-"@fullcalendar/daygrid@^6.1.9":
+"@fullcalendar/daygrid@^6.1.9", "@fullcalendar/daygrid@~6.1.9":
   version "6.1.9"
   resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-6.1.9.tgz#efb8aabb2f928ac0b05a77c5443accb546ae5818"
   integrity sha512-o/6joH/7lmVHXAkbaa/tUbzWYnGp/LgfdiFyYPkqQbjKEeivNZWF1WhHqFbhx0zbFONSHtrvkjY2bjr+Ef2quQ==
+
+"@fullcalendar/interaction@^6.1.9":
+  version "6.1.9"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-6.1.9.tgz#9023922df24c296cb7f4671887f1731f5d5a5db2"
+  integrity sha512-I3FGnv0kKZpIwujg3HllbKrciNjTqeTYy3oJG226oAn7lV6wnrrDYMmuGmA0jPJAGN46HKrQqKN7ItxQRDec4Q==
 
 "@fullcalendar/react@^6.1.9":
   version "6.1.9"
   resolved "https://registry.yarnpkg.com/@fullcalendar/react/-/react-6.1.9.tgz#280fd543901d792c19b50f363c55cc3068917299"
   integrity sha512-ioxu0V++pYz2u/N1LL1V8DkMyiKGRun0gMAll2tQz3Kzi3r9pTwncGKRb1zO8h0e+TrInU08ywk/l5lBwp7eog==
+
+"@fullcalendar/timegrid@^6.1.9":
+  version "6.1.9"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-6.1.9.tgz#83b61ac734638d11182aeb579b638fa0bc52ea32"
+  integrity sha512-le7UV05wVE1Trdr054kgJXTwa+A1pEI8nlCBnPWdcyrL+dTLoPvQ4AWEVCnV7So+4zRYaCqnqGXfCJsj0RQa0g==
+  dependencies:
+    "@fullcalendar/daygrid" "~6.1.9"
 
 "@graphql-codegen/add@^5.0.0":
   version "5.0.0"
@@ -2492,6 +2511,13 @@ dataloader@^2.2.2:
   version "2.2.2"
   resolved "https://registry.npmjs.org/dataloader/-/dataloader-2.2.2.tgz"
   integrity sha512-8YnDaaf7N3k/q5HnTJVuzSyLETjoZjVmHc4AeKAzOvKHEFQKcn64OKBfzHYtE9zGjctNM7V9I0MfnUVLpi7M5g==
+
+date-fns@^2.30.0:
+  version "2.30.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.30.0.tgz#f367e644839ff57894ec6ac480de40cae4b0f4d0"
+  integrity sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
 
 debounce@^1.2.0:
   version "1.2.1"
