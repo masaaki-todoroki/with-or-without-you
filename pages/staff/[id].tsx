@@ -2,34 +2,27 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { CustomNextPage } from "next";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useForm, Controller } from "react-hook-form";
-import { GET_STAFF_BY_ID } from "features/staff/helper/graphql";
+import { GET_STAFF_BY_ID } from "features/staff/helpers/graphql";
 import { PageContainer } from "components/PageContainer";
 import { SplitContentCard } from "components/SplitContentCard";
 import { GetStaffByIdQuery } from "types/generated/graphql";
 import {
   Box,
-  Button,
   Card,
-  Dialog,
   Grid,
-  Group,
   Image,
   LoadingOverlay,
   SimpleGrid,
-  Stack,
-  Text,
-  TextInput
+  Stack
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
-import { format } from "date-fns";
-import { ja } from "date-fns/locale";
-import StaffDetailTextContainer from "features/staff/component/StaffDetailTextContainer";
+import StaffDetailTextContainer from "features/staff/components/StaffDetailTextContainer";
 import ErrorMessage from "components/ErrorMessage";
+import DateDialog from "features/staffDetail/components/DateDialog";
 
 const StaffDetail: CustomNextPage = () => {
   const router = useRouter();
@@ -40,7 +33,6 @@ const StaffDetail: CustomNextPage = () => {
     loading,
     error
   } = useQuery<GetStaffByIdQuery>(GET_STAFF_BY_ID, {
-    skip: !id,
     variables: { id: parseInt(id as string) }
   });
 
@@ -55,48 +47,32 @@ const StaffDetail: CustomNextPage = () => {
     setSelectedImageUrl(thumbnail);
   }, [thumbnail]);
 
-  const [selectedDate, setSelectedDate] = useState("");
-  const [opened, handlers] = useDisclosure(false);
-  const handleDateClick = useCallback(
-    (arg: DateClickArg) => {
-      const date = new Date(arg.dateStr);
-      const formattedDate = format(date, "yyyy.MM.dd（E）", { locale: ja });
-      setSelectedDate(formattedDate);
-      handlers.toggle();
-    },
-    [handlers]
-  );
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  const { control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      schedule: ""
-    }
-  });
+  const [isOpenedDateDialog, { toggle, close }] = useDisclosure(false);
+
+  const handleDateClick = useCallback(
+    ({ dateStr }: DateClickArg) => {
+      setSelectedDate(new Date(dateStr));
+      toggle();
+    },
+    [toggle]
+  );
 
   const inputScheduleRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    if (opened && inputScheduleRef.current !== null) {
+    if (isOpenedDateDialog && inputScheduleRef.current !== null) {
       inputScheduleRef.current.focus();
-    } else {
-      reset();
     }
-  }, [opened, reset]);
-
-  const onSubmit = (scheduleFormValue: { schedule: string }) => {
-    console.log(scheduleFormValue.schedule);
-    handlers.close();
-    reset();
-  };
+  }, [isOpenedDateDialog]);
 
   if (loading) {
     return <LoadingOverlay visible={loading} overlayBlur={2} />;
   }
-
   if (error) {
     console.error(error.message);
     return <ErrorMessage message="スタッフデータの取得に失敗しました" />;
   }
-
   if (!staffData) {
     return <ErrorMessage message="スタッフデータが見つかりませんでした" />;
   }
@@ -115,35 +91,11 @@ const StaffDetail: CustomNextPage = () => {
             }}
             dateClick={handleDateClick}
           />
-          <Dialog
-            opened={opened}
-            withCloseButton
-            onClose={handlers.close}
-            size="lg"
-            radius="md"
-            position={{ top: 20, left: 20 }}
-          >
-            <Text size="sm" mb="xs" fw={500}>
-              {selectedDate}
-            </Text>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Group align="flex-end">
-                <Controller
-                  name="schedule"
-                  control={control}
-                  render={({ field }) => (
-                    <TextInput
-                      {...field}
-                      placeholder="予定を入力"
-                      style={{ flex: 1 }}
-                      ref={inputScheduleRef}
-                    />
-                  )}
-                />
-                <Button type="submit">登録</Button>
-              </Group>
-            </form>
-          </Dialog>
+          <DateDialog
+            isOpenedDateDialog={isOpenedDateDialog}
+            close={close}
+            selectedDate={selectedDate}
+          />
         </SplitContentCard>
         <SplitContentCard title="スタッフデータ" splitRatio={4}>
           <Card>

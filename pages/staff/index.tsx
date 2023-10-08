@@ -1,7 +1,7 @@
 import type { CustomNextPage } from "next";
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
-import { GET_STAFF_LIST } from "features/staff/helper/graphql";
+import { GET_STAFF_LIST } from "features/staff/helpers/graphql";
 import { GetStaffListQuery } from "types/generated/graphql";
 import {
   Box,

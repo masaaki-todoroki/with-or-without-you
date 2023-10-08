@@ -9,7 +9,7 @@ import { useMutation } from "@apollo/client";
 import {
   CREATE_STAFF,
   CREATE_STAFF_THUMBNAILS
-} from "features/staff/helper/graphql";
+} from "features/staff/helpers/graphql";
 import {
   CreateStaffMutation,
   CreateStaffThumbnailsMutation
@@ -30,7 +30,7 @@ import { notifications } from "@mantine/notifications";
 import { Check, ExclamationMark } from "tabler-icons-react";
 import { PageContainer } from "components/PageContainer";
 import { ContentCard } from "components/ContentCard";
-import { StaffValidation } from "features/staff/helper/validation";
+import { StaffValidation } from "features/staff/helpers/validation";
 import { convertToNumber } from "utils/convertToNumber";
 import { getPath } from "utils/path";
 
