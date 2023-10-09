@@ -23,7 +23,7 @@ const config: CodegenConfig = {
       }
     }
   },
-  documents: "features/**/helper/graphql.ts",
+  documents: "features/**/helpers/graphql.ts",
   generates: {
     "types/generated/": {
       preset: "client",
