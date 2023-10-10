@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { CustomNextPage } from "next";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { GET_STAFF_BY_ID } from "features/staff/helper/graphql";
+import { GET_STAFF_BY_ID } from "features/staff/helpers/graphql";
 import { PageContainer } from "components/PageContainer";
 import { SplitContentCard } from "components/SplitContentCard";
 import { GetStaffByIdQuery } from "types/generated/graphql";
@@ -15,10 +15,14 @@ import {
   SimpleGrid,
   Stack
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import StaffDetailTextContainer from "features/staff/component/StaffDetailTextContainer";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
+import StaffDetailTextContainer from "features/staff/components/StaffDetailTextContainer";
 import ErrorMessage from "components/ErrorMessage";
+import DateDialog from "features/staffDetail/components/DateDialog";
 
 const StaffDetail: CustomNextPage = () => {
   const router = useRouter();
@@ -29,7 +33,6 @@ const StaffDetail: CustomNextPage = () => {
     loading,
     error
   } = useQuery<GetStaffByIdQuery>(GET_STAFF_BY_ID, {
-    skip: !id,
     variables: { id: parseInt(id as string) }
   });
 
@@ -44,15 +47,32 @@ const StaffDetail: CustomNextPage = () => {
     setSelectedImageUrl(thumbnail);
   }, [thumbnail]);
 
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  const [isOpenedDateDialog, { toggle, close }] = useDisclosure(false);
+
+  const handleDateClick = useCallback(
+    ({ dateStr }: DateClickArg) => {
+      setSelectedDate(new Date(dateStr));
+      toggle();
+    },
+    [toggle]
+  );
+
+  const inputScheduleRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (isOpenedDateDialog && inputScheduleRef.current !== null) {
+      inputScheduleRef.current.focus();
+    }
+  }, [isOpenedDateDialog]);
+
   if (loading) {
     return <LoadingOverlay visible={loading} overlayBlur={2} />;
   }
-
   if (error) {
     console.error(error.message);
     return <ErrorMessage message="スタッフデータの取得に失敗しました" />;
   }
-
   if (!staffData) {
     return <ErrorMessage message="スタッフデータが見つかりませんでした" />;
   }
@@ -61,7 +81,21 @@ const StaffDetail: CustomNextPage = () => {
     <PageContainer title="スタッフ" fluid>
       <Grid>
         <SplitContentCard title="スケジュール" splitRatio={8}>
-          <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay"
+            }}
+            dateClick={handleDateClick}
+          />
+          <DateDialog
+            isOpenedDateDialog={isOpenedDateDialog}
+            close={close}
+            selectedDate={selectedDate}
+          />
         </SplitContentCard>
         <SplitContentCard title="スタッフデータ" splitRatio={4}>
           <Card>
